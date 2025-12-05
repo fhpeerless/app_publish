@@ -1,3 +1,49 @@
+// AES加密解密工具类
+class AESUtils {
+    constructor(key, iv) {
+        this.key = this.hexToBytes(CryptoJS.SHA256(key).toString().substring(0, 32));
+        this.iv = iv ? this.stringToBytes(iv).slice(0, 16) : this.key.slice(0, 16);
+    }
+
+    stringToBytes(str) {
+        const bytes = [];
+        for (let i = 0; i < str.length; i++) {
+            bytes.push(str.charCodeAt(i));
+        }
+        return bytes;
+    }
+
+    hexToBytes(hex) {
+        const bytes = [];
+        for (let i = 0; i < hex.length; i += 2) {
+            bytes.push(parseInt(hex.substr(i, 2), 16));
+        }
+        return bytes;
+    }
+
+    encrypt(plaintext) {
+        const keyHex = CryptoJS.enc.Hex.parse(CryptoJS.SHA256(this.key).toString().substring(0, 32));
+        const ivHex = CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.stringify(this.iv).substring(0, 32));
+        const encrypted = CryptoJS.AES.encrypt(plaintext, keyHex, {
+            iv: ivHex,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return encrypted.toString();
+    }
+
+    decrypt(ciphertext) {
+        const keyHex = CryptoJS.enc.Hex.parse(CryptoJS.SHA256(this.key).toString().substring(0, 32));
+        const ivHex = CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.stringify(this.iv).substring(0, 32));
+        const decrypted = CryptoJS.AES.decrypt(ciphertext, keyHex, {
+            iv: ivHex,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+}
+
 // 应用数据（模拟后端数据，可替换为真实接口请求）
 const appData = [
     {
@@ -113,6 +159,166 @@ appCards.forEach(card => {
 
 // 返回按钮点击事件
 backBtn.addEventListener('click', showListPage);
+
+// 卡密API客户端
+class CardKeyAPI {
+    constructor() {
+        this.baseUrl = "http://175.27.253.177:8000";
+        this.apiKey = "fhpeerless";
+        this.aesKey = "nIpDDCrGKmN7d4nqRmIVfwHZgzCKDf/qdkGbL97/gEY=";
+        this.aesIv = "P2m/UNJ5x+FCuILTacX96w==";
+        this.aes = new AESUtils(this.aesKey, this.aesIv);
+    }
+
+    async checkCard(cardKey) {
+        const url = `${this.baseUrl}/api/check`;
+        const plainPayload = { card_key: cardKey.trim() };
+        const encryptedPayload = this.aes.encrypt(JSON.stringify(plainPayload));
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': this.apiKey
+                },
+                body: JSON.stringify({ data: encryptedPayload })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP错误! 状态码: ${response.status}`);
+            }
+
+            const encryptedResult = await response.json();
+            const decryptedResult = JSON.parse(this.aes.decrypt(encryptedResult.data));
+            return decryptedResult;
+        } catch (error) {
+            console.error('检查卡密失败:', error);
+            throw error;
+        }
+    }
+}
+
+// DOM元素获取（卡密查询相关）
+const cardCheckPage = document.getElementById('cardCheckPage');
+const checkCardBtn = document.getElementById('checkCardBtn');
+const submitCheckBtn = document.getElementById('submitCheckBtn');
+const backToHomeBtn = document.getElementById('backToHomeBtn');
+const cardKeyInput = document.getElementById('cardKeyInput');
+const checkResult = document.getElementById('checkResult');
+const checkError = document.getElementById('checkError');
+const errorMessage = document.getElementById('errorMessage');
+
+// 页面切换函数（卡密查询）
+function showCardCheckPage() {
+    // 隐藏所有页面
+    appListPage.classList.remove('active');
+    appDetailPage.classList.remove('active');
+    backBtn.classList.add('hidden');
+    
+    // 显示卡密查询页面
+    cardCheckPage.classList.add('active');
+}
+
+function hideCardCheckPage() {
+    cardCheckPage.classList.remove('active');
+    // 清空表单和结果
+    cardKeyInput.value = '';
+    checkResult.classList.add('hidden');
+    checkError.classList.add('hidden');
+}
+
+// 格式化日期
+function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+}
+
+// 处理卡密查询结果
+function handleCheckResult(result) {
+    const resultCardKey = document.getElementById('resultCardKey');
+    const resultStatus = document.getElementById('resultStatus');
+    const resultDays = document.getElementById('resultDays');
+    const resultActivateTime = document.getElementById('resultActivateTime');
+    const resultExpireTime = document.getElementById('resultExpireTime');
+    const resultRemainingDays = document.getElementById('resultRemainingDays');
+
+    const data = result.data;
+    resultCardKey.textContent = data.card_key;
+    resultDays.textContent = `${data.days} 天`;
+    resultActivateTime.textContent = formatDate(data.activate_time);
+    resultExpireTime.textContent = formatDate(data.expire_time);
+    resultRemainingDays.textContent = `${data.remaining_days} 天`;
+
+    // 设置状态显示
+    if (data.is_active) {
+        if (data.remaining_days > 0) {
+            resultStatus.innerHTML = '<span class="status-active">✅ 已激活</span>';
+        } else {
+            resultStatus.innerHTML = '<span class="status-expired">❌ 已过期</span>';
+        }
+    } else {
+        resultStatus.innerHTML = '<span class="status-inactive">⚠️ 未激活</span>';
+    }
+
+    // 显示结果
+    checkResult.classList.remove('hidden');
+    checkError.classList.add('hidden');
+}
+
+// 显示错误信息
+function showError(message) {
+    errorMessage.textContent = message;
+    checkError.classList.remove('hidden');
+    checkResult.classList.add('hidden');
+}
+
+// 绑定卡密查询事件
+checkCardBtn.addEventListener('click', showCardCheckPage);
+
+backToHomeBtn.addEventListener('click', () => {
+    hideCardCheckPage();
+    appListPage.classList.add('active');
+});
+
+submitCheckBtn.addEventListener('click', async () => {
+    const cardKey = cardKeyInput.value.trim();
+    if (!cardKey) {
+        showError('请输入卡密');
+        return;
+    }
+
+    // 显示加载状态
+    submitCheckBtn.disabled = true;
+    submitCheckBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 查询中...';
+
+    try {
+        const api = new CardKeyAPI();
+        const result = await api.checkCard(cardKey);
+        handleCheckResult(result);
+    } catch (error) {
+        showError('查询失败：' + error.message);
+    } finally {
+        // 恢复按钮状态
+        submitCheckBtn.disabled = false;
+        submitCheckBtn.innerHTML = '<i class="fa-solid fa-search"></i> 查询';
+    }
+});
+
+// 添加回车键提交支持
+cardKeyInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        submitCheckBtn.click();
+    }
+});
 
 // 初始化：确保列表页默认显示
 document.addEventListener('DOMContentLoaded', () => {
