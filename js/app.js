@@ -1,29 +1,16 @@
 // AES加密解密工具类
 class AESUtils {
     constructor(key, iv) {
-        this.key = this.hexToBytes(CryptoJS.SHA256(key).toString().substring(0, 32));
-        this.iv = iv ? this.stringToBytes(iv).slice(0, 16) : this.key.slice(0, 16);
-    }
-
-    stringToBytes(str) {
-        const bytes = [];
-        for (let i = 0; i < str.length; i++) {
-            bytes.push(str.charCodeAt(i));
-        }
-        return bytes;
-    }
-
-    hexToBytes(hex) {
-        const bytes = [];
-        for (let i = 0; i < hex.length; i += 2) {
-            bytes.push(parseInt(hex.substr(i, 2), 16));
-        }
-        return bytes;
+        // 与后端保持一致的密钥处理方式：SHA256哈希后取前32字节
+        this.key = CryptoJS.SHA256(key).toString().substring(0, 32);
+        
+        // IV处理：确保长度为16字节
+        this.iv = iv ? iv.substring(0, 16).padEnd(16, ' ') : this.key.substring(0, 16);
     }
 
     encrypt(plaintext) {
-        const keyHex = CryptoJS.enc.Hex.parse(CryptoJS.SHA256(this.key).toString().substring(0, 32));
-        const ivHex = CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.stringify(this.iv).substring(0, 32));
+        const keyHex = CryptoJS.enc.Hex.parse(this.key);
+        const ivHex = CryptoJS.enc.Utf8.parse(this.iv);
         const encrypted = CryptoJS.AES.encrypt(plaintext, keyHex, {
             iv: ivHex,
             mode: CryptoJS.mode.CBC,
@@ -33,8 +20,8 @@ class AESUtils {
     }
 
     decrypt(ciphertext) {
-        const keyHex = CryptoJS.enc.Hex.parse(CryptoJS.SHA256(this.key).toString().substring(0, 32));
-        const ivHex = CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.stringify(this.iv).substring(0, 32));
+        const keyHex = CryptoJS.enc.Hex.parse(this.key);
+        const ivHex = CryptoJS.enc.Utf8.parse(this.iv);
         const decrypted = CryptoJS.AES.decrypt(ciphertext, keyHex, {
             iv: ivHex,
             mode: CryptoJS.mode.CBC,
