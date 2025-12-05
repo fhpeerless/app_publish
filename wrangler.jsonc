@@ -1,0 +1,7 @@
+// wrangler.jsonc
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/configuration-schema.json",
+  "name": "apppublish",  // 改成你的项目名称
+  "compatibility_date": "2025-12-05",
+  "main": "index.html"  // 根据你的项目修改
+}
