@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; connect-src 'self' https: http://175.27.253.177:8000 https://api.allorigins.win; img-src 'self' data: https: http:; script-src 'self' https: http://cdnjs.cloudflare.com; style-src 'self' https: http://cdnjs.cloudflare.com;">
+    <title>密钥查询 - 应用发布中心</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <!-- 引用外部CSS文件 -->
+    <link rel="stylesheet" href="./style/styles.css">
+    <!-- 引入Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入CryptoJS库（用于AES加密解密） -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-logo">
+               <a href="./index.html"><i class="fa-solid fa-rocket"></i></a><a href="./index.html"><h1>应用发布中心</h1></a>
+            </div>
+            <div class="navbar-actions">
+                <a href="./index.html" class="btn-primary">
+                    <i class="fa-solid fa-home"></i> 返回首页
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="container">
+        <!-- 密钥查询页面 -->
+        <section class="page active">
+            <div class="check-container">
+                <div class="check-header">
+                    <h2>🔑 密钥查询</h2>
+                    <p>输入您购买的密钥，查询其状态和有效期</p>
+                </div>
+                <div class="check-form">
+                    <div class="form-group">
+                        <label for="cardKeyInput">密钥</label>
+                        <input type="text" id="cardKeyInput" placeholder="请输入您的密钥" required>
+                    </div>
+                    <div class="form-actions">
+                        <button id="submitCheckBtn" class="btn-primary">
+                            <i class="fa-solid fa-search"></i> 查询
+                        </button>
+                        <a href="./index.html" class="btn-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> 返回应用列表
+                        </a>
+                    </div>
+                </div>
+                <div id="checkResult" class="check-result hidden">
+                    <div class="result-header">
+                        <h3>查询结果</h3>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-item">
+                            <span class="result-label">密钥</span>
+                            <span id="resultCardKey" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">状态</span>
+                            <span id="resultStatus" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">有效期</span>
+                            <span id="resultDays" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">激活时间</span>
+                            <span id="resultActivateTime" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">过期时间</span>
+                            <span id="resultExpireTime" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">剩余天数</span>
+                            <span id="resultRemainingDays" class="result-value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div id="checkError" class="check-error hidden">
+                    <i class="fa-solid fa-exclamation-circle"></i>
+                    <span id="errorMessage"></span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 应用发布中心 - 所有应用仅供展示</p>
+        </div>
+    </footer>
+
+    <!-- 引用外部JS文件 -->
+    <script src="./js/key-check.js"></script>
+</body>
+</html>
