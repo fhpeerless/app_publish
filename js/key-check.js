@@ -86,6 +86,7 @@ class CardKeyAPI {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-Key': this.apiKey
+                    'User-Agent': 'CardKey-Client/1.0' // 与Python和Worker一致
                 },
                 body: JSON.stringify({ data: encryptedPayload })
             });
