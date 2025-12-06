@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 防止浏览器自动将HTTP升级为HTTPS -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http: https:; connect-src 'self' http: https:;">
+    <!-- 配置Content-Security-Policy以允许混合内容 -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http: https:; connect-src 'self' http: https:; img-src 'self' data: http: https:; script-src 'self' http: https:; style-src 'self' http: https:; font-src 'self' http: https:; frame-src http: https:;">
     <!-- 关闭HSTS -->
     <meta http-equiv="Strict-Transport-Security" content="max-age=0">
 
