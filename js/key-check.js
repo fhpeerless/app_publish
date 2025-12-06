@@ -46,7 +46,7 @@ class AESUtils {
 class CardKeyAPI {
     constructor() {
         // 后端API地址 - 使用远程服务器
-        this.baseUrl = "http://175.27.253.177:8000";
+        this.baseUrl = "https://175.27.253.177:8000";
         
         // 启用CORS代理，解决HTTPS到HTTP的混合内容问题
         this.useProxy = true;
