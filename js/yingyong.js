@@ -21,6 +21,7 @@ const appData = [
             <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
         imgUrl: "https://i0.hdslb.com/bfs/mallup/mall/2x/03/2x03zy10x0zy02x23xx302zzw3x300w0.png@.webp",
+        videoEmbed: "<iframe src=\"//player.bilibili.com/player.html?isOutside=true&aid=1303107810&bvid=BV1LM4m1X7dk&cid=1508435093&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
         downloadLinks: [
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" },
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" }
@@ -100,8 +101,22 @@ function showDetailPage(appId) {
     if (!app) return;
 
     // 渲染详情页内容
-    document.getElementById('detailImg').src = app.imgUrl;
-    document.getElementById('detailImg').alt = app.title;
+    const detailImgContainer = document.querySelector('.detail-img');
+    const detailImg = document.getElementById('detailImg');
+    
+    // 清空容器内容
+    detailImgContainer.innerHTML = '';
+    
+    if (app.videoEmbed) {
+        // 如果有视频嵌入代码，显示视频
+        detailImgContainer.innerHTML = app.videoEmbed;
+    } else {
+        // 否则显示图片
+        detailImg.src = app.imgUrl;
+        detailImg.alt = app.title;
+        detailImgContainer.appendChild(detailImg);
+    }
+    
     document.getElementById('detailTitle').textContent = app.title;
     document.getElementById('detailTag').textContent = app.tag;
     document.getElementById('detailDesc').textContent = app.shortDesc;
@@ -149,9 +164,17 @@ function generateAppCards() {
         card.className = 'app-card';
         card.dataset.id = app.id;
         
+        // 生成卡片图片或视频内容
+        let mediaContent;
+        if (app.videoEmbed) {
+            mediaContent = app.videoEmbed;
+        } else {
+            mediaContent = `<img src="${app.imgUrl}" alt="${app.title}">`;
+        }
+        
         card.innerHTML = `
             <div class="card-img">
-                <img src="${app.imgUrl}" alt="${app.title}">
+                ${mediaContent}
             </div>
             <div class="card-content">
                 <h3 class="card-title">${app.title}</h3>
