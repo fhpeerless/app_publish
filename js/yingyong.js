@@ -27,7 +27,7 @@ const appData = [
             { platform: "Android", link: "#android" },
             { platform: "网页端", link: "#web" }
         ]
-    },
+    }/*,
     {
         id: 2,
         title: "健康管家",
@@ -80,7 +80,7 @@ const appData = [
             { platform: "Android", link: "#android" },
             { platform: "网页端", link: "#web" }
         ]
-    }
+    }*/
 ];
 
 // DOM元素获取
