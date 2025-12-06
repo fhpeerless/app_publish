@@ -46,11 +46,11 @@ class AESUtils {
 class CardKeyAPI {
     constructor() {
         // 后端API地址 - 使用远程服务器
-       //  this.baseUrl = "http://175.27.253.177:8000";
+        this.baseUrl = "http://175.27.253.177:8000";
         
         // 启用CORS代理，解决HTTPS到HTTP的混合内容问题
         this.useProxy = true;
-        // 使用Cloudflare Worker作为CORS代理
+        // 使用Cloudflare Worker作为CORS代理（Worker已配置直接转发到目标API）
         this.proxyUrl = "https://my-cors-proxy.68208932.workers.dev";
         
         this.apiKey = "fhpeerless";
@@ -60,15 +60,14 @@ class CardKeyAPI {
     }
 
     async checkCard(cardKey) {
-        const baseUrl = `${this.baseUrl}/api/check`;
         // 应用代理（如果启用）
         let url;
         if (this.useProxy) {
-        // 直接使用代理URL，不添加任何路径（Workers已配置完整目标地址）
-        url = this.proxyUrl;
+            // 由于Cloudflare Worker已配置直接转发到目标API，我们直接使用Worker URL
+            url = this.proxyUrl;
         } else {
-        // 不使用代理时，拼接完整路径
-        url = `${this.baseUrl}/api/check`;
+            const baseUrl = `${this.baseUrl}/api/check`;
+            url = baseUrl;
         }
         
         const plainPayload = { card_key: cardKey.trim() };
