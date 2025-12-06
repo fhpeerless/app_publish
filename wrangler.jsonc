@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/configuration-schema.json",
-  "name": "my-static-site",  // 改成你的网站名称
+  "name": "app",  // 改成你的网站名称
   "compatibility_date": "2025-12-05",
   "assets": {
     "directory": "."  // 部署当前目录下的所有文件
