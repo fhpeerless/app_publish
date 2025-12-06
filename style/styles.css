@@ -136,13 +136,22 @@ body {
     width: 100%;
     height: 180px;
     overflow: hidden;
+    position: relative;
 }
 
-.card-img img {
+.card-img img,
+.card-img iframe {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+}
+
+.card-img iframe {
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .app-card:hover .card-img img {
@@ -200,10 +209,15 @@ body {
     overflow: hidden;
 }
 
-.detail-img img {
+.detail-img img,
+.detail-img iframe {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.detail-img iframe {
+    border: none;
 }
 
 .detail-content {
