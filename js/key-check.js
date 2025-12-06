@@ -64,10 +64,11 @@ class CardKeyAPI {
         // 应用代理（如果启用）
         let url;
         if (this.useProxy) {
-            // 对于Cloudflare Worker代理，我们需要将目标URL作为查询参数并进行编码
-            url = `${this.proxyUrl}${encodeURIComponent(baseUrl)}`;
+        // 直接使用代理URL，不添加任何路径（Workers已配置完整目标地址）
+        url = this.proxyUrl;
         } else {
-            url = baseUrl;
+        // 不使用代理时，拼接完整路径
+        url = `${this.baseUrl}/api/check`;
         }
         
         const plainPayload = { card_key: cardKey.trim() };
