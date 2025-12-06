@@ -1,7 +1,4 @@
-// 强制使用HTTP协议，防止自动升级到HTTPS
-if (window.location.protocol === 'https:') {
-    window.location.href = window.location.href.replace('https:', 'http:');
-}
+
 
 // AES加密解密工具类
 class AESUtils {
