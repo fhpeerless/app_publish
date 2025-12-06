@@ -21,11 +21,9 @@ const appData = [
         `,
         imgUrl: "https://picsum.photos/seed/app1/800/400",
         downloadLinks: [
-            { platform: "Windows", link: "#windows" },
-            { platform: "macOS", link: "#macos" },
-            { platform: "iOS", link: "#ios" },
-            { platform: "Android", link: "#android" },
-            { platform: "网页端", link: "#web" }
+            { platform: "Windows应用", link: "#windows" },
+            { platform: "购买卡密", link: "123" }
+
         ]
     }/*,
     {
