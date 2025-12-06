@@ -46,12 +46,12 @@ class AESUtils {
 class CardKeyAPI {
     constructor() {
         // 后端API地址 - 使用远程服务器
-        this.baseUrl = "http://175.27.253.177:8000";
+       //  this.baseUrl = "http://175.27.253.177:8000";
         
         // 启用CORS代理，解决HTTPS到HTTP的混合内容问题
         this.useProxy = true;
         // 使用Cloudflare Worker作为CORS代理
-        this.proxyUrl = "https://my-cors-proxy.68208932.workers.dev/?url=";
+        this.proxyUrl = "https://my-cors-proxy.68208932.workers.dev";
         
         this.apiKey = "fhpeerless";
         this.aesKey = "nIpDDCrGKmN7d4nqRmIVfwHZgzCKDf/qdkGbL97/gEY=";
