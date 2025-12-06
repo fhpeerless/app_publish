@@ -1,4 +1,4 @@
-
+// 移除强制HTTP重定向，支持HTTPS访问
 
 // AES加密解密工具类
 class AESUtils {
@@ -45,12 +45,12 @@ class AESUtils {
 // 卡密API客户端
 class CardKeyAPI {
     constructor() {
-        // 后端API地址
+        // 后端API地址 - 使用远程服务器
         this.baseUrl = "http://175.27.253.177:8000";
         
-        // 禁用CORS代理，直接访问HTTP API
-        this.useProxy = false;
-        this.proxyUrl = "";
+        // 启用CORS代理，解决HTTPS到HTTP的混合内容问题
+        this.useProxy = true;
+        this.proxyUrl = "https://cors-anywhere.herokuapp.com/";
         
         this.apiKey = "fhpeerless";
         this.aesKey = "nIpDDCrGKmN7d4nqRmIVfwHZgzCKDf/qdkGbL97/gEY=";
@@ -61,7 +61,13 @@ class CardKeyAPI {
     async checkCard(cardKey) {
         const baseUrl = `${this.baseUrl}/api/check`;
         // 应用代理（如果启用）
-        const url = this.useProxy ? `${this.proxyUrl}${encodeURIComponent(baseUrl)}` : baseUrl;
+        let url;
+        if (this.useProxy) {
+            // 对于大多数代理，我们不需要encodeURIComponent
+            url = `${this.proxyUrl}${baseUrl}`;
+        } else {
+            url = baseUrl;
+        }
         
         const plainPayload = { card_key: cardKey.trim() };
         const encryptedPayload = this.aes.encrypt(JSON.stringify(plainPayload));
@@ -71,7 +77,7 @@ class CardKeyAPI {
             console.log('请求数据:', { data: encryptedPayload });
             console.log('是否使用代理:', this.useProxy);
             
-            // 对于allorigins.win代理，我们需要使用特殊的请求格式
+            // 使用CORS代理发送请求
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',

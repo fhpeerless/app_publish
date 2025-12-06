@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 配置Content-Security-Policy以允许混合内容 -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http: https:; connect-src 'self' http: https:; img-src 'self' data: http: https:; script-src 'self' http: https:; style-src 'self' http: https:; font-src 'self' http: https:; frame-src http: https:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; connect-src 'self' https: https://cors-anywhere.herokuapp.com/; img-src 'self' data: https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'; font-src 'self' https:; frame-src https:;">
     <!-- 关闭HSTS -->
     <meta http-equiv="Strict-Transport-Security" content="max-age=0">
 
