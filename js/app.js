@@ -1,29 +1,37 @@
 // AES加密解密工具类
 class AESUtils {
     constructor(key, iv) {
-        // 与后端保持一致的密钥处理方式：SHA256哈希后取前32字节
-        this.key = CryptoJS.SHA256(key).toString().substring(0, 32);
+        // 与后端保持一致的密钥处理方式：SHA256哈希后取前32字节的原始二进制数据
+        this.key = CryptoJS.SHA256(key); // SHA256哈希后得到32字节的二进制数据
         
         // IV处理：确保长度为16字节
-        this.iv = iv ? iv.substring(0, 16).padEnd(16, ' ') : this.key.substring(0, 16);
+        if (iv) {
+            // 与后端一致：将IV转换为UTF-8编码，然后补到16字节
+            const ivStr = iv.substring(0, 16).padEnd(16, ' ');
+            this.iv = CryptoJS.enc.Utf8.parse(ivStr);
+        } else {
+            // 默认使用密钥前16字节作为IV
+            this.iv = CryptoJS.lib.WordArray.create(this.key.words.slice(0, 4)); // 4个32位字 = 16字节
+        }
     }
 
     encrypt(plaintext) {
-        const keyHex = CryptoJS.enc.Hex.parse(this.key);
-        const ivHex = CryptoJS.enc.Utf8.parse(this.iv);
-        const encrypted = CryptoJS.AES.encrypt(plaintext, keyHex, {
-            iv: ivHex,
+        const encrypted = CryptoJS.AES.encrypt(plaintext, this.key, {
+            iv: this.iv,
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         });
-        return encrypted.toString();
+        // 返回Base64编码的密文，与后端完全一致
+        return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
     }
 
     decrypt(ciphertext) {
-        const keyHex = CryptoJS.enc.Hex.parse(this.key);
-        const ivHex = CryptoJS.enc.Utf8.parse(this.iv);
-        const decrypted = CryptoJS.AES.decrypt(ciphertext, keyHex, {
-            iv: ivHex,
+        // 密文是Base64编码，需要先转换为WordArray
+        const ciphertextWordArray = CryptoJS.enc.Base64.parse(ciphertext);
+        const decrypted = CryptoJS.AES.decrypt({
+            ciphertext: ciphertextWordArray
+        }, this.key, {
+            iv: this.iv,
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         });
@@ -238,6 +246,7 @@ function handleCheckResult(result) {
     const resultExpireTime = document.getElementById('resultExpireTime');
     const resultRemainingDays = document.getElementById('resultRemainingDays');
 
+    // API响应包含data对象嵌套
     const data = result.data;
     resultCardKey.textContent = data.card_key;
     resultDays.textContent = `${data.days} 天`;
