@@ -45,8 +45,8 @@ class AESUtils {
 // 卡密API客户端
 class CardKeyAPI {
     constructor() {
-        // 后端API地址 - 使用远程服务器
-        this.baseUrl = "https://175.27.253.177:8000";
+        // 后端API地址 - 使用远程服务器（注意：这里使用http协议，因为服务器不支持HTTPS）
+        this.baseUrl = "http://175.27.253.177:8000";
         
         // 启用CORS代理，解决HTTPS到HTTP的混合内容问题
         this.useProxy = true;
@@ -66,8 +66,8 @@ class CardKeyAPI {
             // 由于Cloudflare Worker已配置直接转发到目标API，我们直接使用Worker URL
             url = this.proxyUrl;
         } else {
-            const baseUrl = `${this.baseUrl}/api/check`;
-            url = baseUrl;
+            // 不使用代理时直接访问API（注意：这种方式在HTTPS前端中会导致混合内容错误）
+            url = `${this.baseUrl}/api/check`;
         }
         
         const plainPayload = { card_key: cardKey.trim() };
@@ -85,7 +85,7 @@ class CardKeyAPI {
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-API-Key': this.apiKey
+                    'X-API-Key': this.apiKey,
                     'User-Agent': 'CardKey-Client/1.0' // 与Python和Worker一致
                 },
                 body: JSON.stringify({ data: encryptedPayload })
@@ -100,25 +100,47 @@ class CardKeyAPI {
                 throw new Error(`HTTP错误! 状态码: ${response.status}, 响应: ${errorText}`);
             }
 
-            // 解析响应，allorigins.win会返回JSON格式的response对象
+            // 解析响应，Worker代理会直接返回目标API的响应
             let encryptedResult;
             try {
-                encryptedResult = await response.json();
-                // 如果使用了代理，响应可能嵌套在contents字段中
-                if (this.useProxy && encryptedResult.contents) {
-                    encryptedResult = JSON.parse(encryptedResult.contents);
+                // 首先检查响应内容类型
+                const contentType = response.headers.get('Content-Type');
+                console.log('响应Content-Type:', contentType);
+                
+                if (contentType && contentType.includes('application/json')) {
+                    encryptedResult = await response.json();
+                    console.log('解析后的JSON响应:', encryptedResult);
+                } else {
+                    // 如果不是JSON格式，尝试直接读取文本
+                    const responseText = await response.text();
+                    console.log('响应文本:', responseText);
+                    throw new Error(`API响应不是JSON格式: ${responseText}`);
                 }
             } catch (jsonError) {
                 // 如果JSON解析失败，尝试直接读取响应文本
                 const responseText = await response.text();
-                console.log('原始响应文本:', responseText);
-                throw new Error('API响应格式错误');
+                console.log('JSON解析失败，原始响应文本:', responseText);
+                throw new Error(`API响应格式错误: ${jsonError.message}`);
             }
             
             console.log('加密响应:', encryptedResult);
-            const decryptedResult = JSON.parse(this.aes.decrypt(encryptedResult.data));
-            console.log('解密响应:', decryptedResult);
-            return decryptedResult;
+            
+            // 检查响应中是否包含data字段
+            if (!encryptedResult || !encryptedResult.data) {
+                console.error('API响应缺少data字段:', encryptedResult);
+                throw new Error('API响应格式错误：缺少data字段');
+            }
+            
+            // 解密响应数据
+            let decryptedResult;
+            try {
+                decryptedResult = JSON.parse(this.aes.decrypt(encryptedResult.data));
+                console.log('解密响应:', decryptedResult);
+                return decryptedResult;
+            } catch (decryptError) {
+                console.error('解密响应失败:', decryptError);
+                throw new Error(`解密响应失败: ${decryptError.message}`);
+            }
         } catch (error) {
             console.error('检查密钥失败:', error);
             console.error('错误堆栈:', error.stack);
