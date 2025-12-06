@@ -21,11 +21,8 @@ const appData = [
         `,
         imgUrl: "https://picsum.photos/seed/app1/800/400",
         downloadLinks: [
-            { platform: "Windows", link: "#windows" },
-            { platform: "macOS", link: "#macos" },
-            { platform: "iOS", link: "#ios" },
-            { platform: "Android", link: "#android" },
-            { platform: "网页端", link: "#web" }
+            { platform: "Windows", link: "https://api-docs.deepseek.com/zh-cn/" },
+            { platform: "密钥购买", link: "https://api-docs.deepseek.com/zh-cn" }
         ]
     },
     {
