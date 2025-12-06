@@ -2,27 +2,28 @@
 const appData = [
     {
         id: 1,
-        title: "智能笔记",
+        title: "谷歌多开",
         tag: "效率工具",
-        shortDesc: "支持语音转文字、云端同步的高效笔记工具，适配多端设备。",
+        shortDesc: "一键多开指定数量的google的浏览器。",
         fullDesc: `
             <h4>核心功能</h4>
             <ul>
-                <li>语音实时转文字，识别准确率98%+</li>
-                <li>多端云端同步，支持手机、平板、电脑无缝切换</li>
-                <li>富文本编辑，支持图片、表格、公式插入</li>
-                <li>标签分类管理，快速检索笔记内容</li>
+                <li>存储位置自定义%+</li>
+                <li>多开数量自定义</li>
+                <li>每个多开相互独立</li>
+                <li>几秒中创建上百个google新页面</li>
                 <li>离线编辑模式，无网络也能正常使用</li>
+                <li>源代码支持，不用担心google中数据泄露的问题</li>
             </ul>
             <h4>适配平台</h4>
-            <p>Windows / macOS / iOS / Android / 网页端</p>
+            <p>Windows / macOS /</p>
             <h4>更新日志</h4>
             <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
         imgUrl: "https://picsum.photos/seed/app1/800/400",
         downloadLinks: [
-            { platform: "Windows", link: "https://api-docs.deepseek.com/zh-cn/" },
-            { platform: "密钥购买", link: "https://api-docs.deepseek.com/zh-cn" }
+            { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" },
+            { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" }
         ]
     },
     {
