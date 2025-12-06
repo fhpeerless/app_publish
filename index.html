@@ -19,9 +19,9 @@
                <a href="http://app.xtwa.org" target="_blank"> <i class="fa-solid fa-rocket"></i></a><a href="http://app.xtwa.org" target="_blank"> <h1>应用发布中心</h1></a>
             </div>
             <div class="navbar-actions">
-                <button id="checkCardBtn" class="btn-primary">
+                <a href="key-check.html" id="checkCardBtn" class="btn-primary">
                     <i class="fa-solid fa-key"></i> 密钥查询
-                </button>
+                </a>
                 <a href="https://www.baidu.com" target="_blank" class="btn-primary">
                     <i class="fa-solid fa-search"></i> 购买密钥请查看应用详情页
                 </a>
@@ -65,64 +65,7 @@
             </div>
         </section>
 
-        <!-- 卡密查询页面（初始隐藏） -->
-        <section id="cardCheckPage" class="page">
-            <div class="check-container">
-                <div class="check-header">
-                    <h2>🔑 卡密查询</h2>
-                    <p>输入您购买的卡密，查询其状态和有效期</p>
-                </div>
-                <div class="check-form">
-                    <div class="form-group">
-                        <label for="cardKeyInput">卡密</label>
-                        <input type="text" id="cardKeyInput" placeholder="请输入您的卡密" required>
-                    </div>
-                    <div class="form-actions">
-                        <button id="submitCheckBtn" class="btn-primary">
-                            <i class="fa-solid fa-search"></i> 查询
-                        </button>
-                        <button id="backToHomeBtn" class="btn-secondary">
-                            <i class="fa-solid fa-home"></i> 返回首页
-                        </button>
-                    </div>
-                </div>
-                <div id="checkResult" class="check-result hidden">
-                    <div class="result-header">
-                        <h3>查询结果</h3>
-                    </div>
-                    <div class="result-content">
-                        <div class="result-item">
-                            <span class="result-label">卡密</span>
-                            <span id="resultCardKey" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">状态</span>
-                            <span id="resultStatus" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">有效期</span>
-                            <span id="resultDays" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">激活时间</span>
-                            <span id="resultActivateTime" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">过期时间</span>
-                            <span id="resultExpireTime" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">剩余天数</span>
-                            <span id="resultRemainingDays" class="result-value"></span>
-                        </div>
-                    </div>
-                </div>
-                <div id="checkError" class="check-error hidden">
-                    <i class="fa-solid fa-exclamation-circle"></i>
-                    <span id="errorMessage"></span>
-                </div>
-            </div>
-        </section>
+
     </main>
 
     <!-- 页脚 -->
