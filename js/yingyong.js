@@ -20,8 +20,13 @@ const appData = [
             <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
         imgUrl: "https://picsum.photos/seed/app1/800/400",
-        downloadLink: "#" // 替换为真实下载链接
-        downloadLink: "#" // 替换为真实下载链接
+        downloadLinks: [
+            { platform: "Windows", link: "#windows" },
+            { platform: "macOS", link: "#macos" },
+            { platform: "iOS", link: "#ios" },
+            { platform: "Android", link: "#android" },
+            { platform: "网页端", link: "#web" }
+        ]
     },
     {
         id: 2,
@@ -43,7 +48,10 @@ const appData = [
             <p>v3.0.0 (2025-02-20)：新增血糖记录模块，支持血糖仪数据同步</p>
         `,
         imgUrl: "https://picsum.photos/seed/app2/800/400",
-        downloadLink: "#" // 替换为真实下载链接
+        downloadLinks: [
+            { platform: "iOS", link: "#ios" },
+            { platform: "Android", link: "#android" }
+        ]
     },
     {
         id: 3,
@@ -65,7 +73,13 @@ const appData = [
             <p>v1.8.0 (2025-03-10)：新增AI任务规划，根据截止日期自动分配优先级</p>
         `,
         imgUrl: "https://picsum.photos/seed/app3/800/400",
-        downloadLink: "#" // 替换为真实下载链接
+        downloadLinks: [
+            { platform: "Windows", link: "#windows" },
+            { platform: "macOS", link: "#macos" },
+            { platform: "iOS", link: "#ios" },
+            { platform: "Android", link: "#android" },
+            { platform: "网页端", link: "#web" }
+        ]
     }
 ];
 
@@ -94,7 +108,29 @@ function showDetailPage(appId) {
     document.getElementById('detailTag').textContent = app.tag;
     document.getElementById('detailDesc').textContent = app.shortDesc;
     document.getElementById('detailFullDesc').innerHTML = app.fullDesc;
-    document.getElementById('detailLink').href = app.downloadLink;
+    
+    // 生成多个下载链接按钮
+    const detailActions = document.querySelector('.detail-actions');
+    detailActions.innerHTML = '';
+    
+    if (app.downloadLinks && app.downloadLinks.length > 0) {
+        app.downloadLinks.forEach(download => {
+            const downloadBtn = document.createElement('a');
+            downloadBtn.href = download.link;
+            downloadBtn.className = 'btn-primary';
+            downloadBtn.target = '_blank';
+            downloadBtn.innerHTML = `<i class="fa-solid fa-download"></i> 下载 ${download.platform} 版`;
+            detailActions.appendChild(downloadBtn);
+        });
+    } else {
+        // 兼容旧格式，提供默认下载按钮
+        const downloadBtn = document.createElement('a');
+        downloadBtn.href = app.downloadLink || '#';
+        downloadBtn.className = 'btn-primary';
+        downloadBtn.target = '_blank';
+        downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> 立即下载';
+        detailActions.appendChild(downloadBtn);
+    }
 }
 
 function showListPage() {
