@@ -21,11 +21,13 @@ const appData = [
         `,
         imgUrl: "https://picsum.photos/seed/app1/800/400",
         downloadLinks: [
-            { platform: "Windows应用", link: "#windows" },
-            { platform: "购买卡密", link: "123" }
-
+            { platform: "Windows", link: "#windows" },
+            { platform: "macOS", link: "#macos" },
+            { platform: "iOS", link: "#ios" },
+            { platform: "Android", link: "#android" },
+            { platform: "网页端", link: "#web" }
         ]
-    }/*,
+    },
     {
         id: 2,
         title: "健康管家",
@@ -78,7 +80,7 @@ const appData = [
             { platform: "Android", link: "#android" },
             { platform: "网页端", link: "#web" }
         ]
-    }*/
+    }
 ];
 
 // DOM元素获取
@@ -117,7 +119,7 @@ function showDetailPage(appId) {
             downloadBtn.href = download.link;
             downloadBtn.className = 'btn-primary';
             downloadBtn.target = '_blank';
-            downloadBtn.innerHTML = `<i class="fa-solid fa-download"></i> 下载 ${download.platform} 版`;
+            downloadBtn.innerHTML = `<i class="fa-solid fa-download"></i> ${download.platform}`;
             detailActions.appendChild(downloadBtn);
         });
     } else {
