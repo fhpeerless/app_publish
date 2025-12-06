@@ -1,3 +1,8 @@
+// 强制使用HTTP协议，防止自动升级到HTTPS
+if (window.location.protocol === 'https:') {
+    window.location.href = window.location.href.replace('https:', 'http:');
+}
+
 // AES加密解密工具类
 class AESUtils {
     constructor(key, iv) {
@@ -43,7 +48,13 @@ class AESUtils {
 // 卡密API客户端
 class CardKeyAPI {
     constructor() {
+        // 后端API地址
         this.baseUrl = "http://175.27.253.177:8000";
+        
+        // 禁用CORS代理，直接访问HTTP API
+        this.useProxy = false;
+        this.proxyUrl = "";
+        
         this.apiKey = "fhpeerless";
         this.aesKey = "nIpDDCrGKmN7d4nqRmIVfwHZgzCKDf/qdkGbL97/gEY=";
         this.aesIv = "P2m/UNJ5x+FCuILTacX96w==";
@@ -51,11 +62,19 @@ class CardKeyAPI {
     }
 
     async checkCard(cardKey) {
-        const url = `${this.baseUrl}/api/check`;
+        const baseUrl = `${this.baseUrl}/api/check`;
+        // 应用代理（如果启用）
+        const url = this.useProxy ? `${this.proxyUrl}${encodeURIComponent(baseUrl)}` : baseUrl;
+        
         const plainPayload = { card_key: cardKey.trim() };
         const encryptedPayload = this.aes.encrypt(JSON.stringify(plainPayload));
 
         try {
+            console.log('发送API请求:', url);
+            console.log('请求数据:', { data: encryptedPayload });
+            console.log('是否使用代理:', this.useProxy);
+            
+            // 对于allorigins.win代理，我们需要使用特殊的请求格式
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',
@@ -67,16 +86,37 @@ class CardKeyAPI {
                 body: JSON.stringify({ data: encryptedPayload })
             });
 
+            console.log('API响应状态:', response.status);
+            console.log('API响应头:', response.headers);
+
             if (!response.ok) {
-                // 传递具体的HTTP状态码
-                throw new Error(`HTTP错误! 状态码: ${response.status}`);
+                // 传递具体的HTTP状态码和响应文本
+                const errorText = await response.text();
+                throw new Error(`HTTP错误! 状态码: ${response.status}, 响应: ${errorText}`);
             }
 
-            const encryptedResult = await response.json();
+            // 解析响应，allorigins.win会返回JSON格式的response对象
+            let encryptedResult;
+            try {
+                encryptedResult = await response.json();
+                // 如果使用了代理，响应可能嵌套在contents字段中
+                if (this.useProxy && encryptedResult.contents) {
+                    encryptedResult = JSON.parse(encryptedResult.contents);
+                }
+            } catch (jsonError) {
+                // 如果JSON解析失败，尝试直接读取响应文本
+                const responseText = await response.text();
+                console.log('原始响应文本:', responseText);
+                throw new Error('API响应格式错误');
+            }
+            
+            console.log('加密响应:', encryptedResult);
             const decryptedResult = JSON.parse(this.aes.decrypt(encryptedResult.data));
+            console.log('解密响应:', decryptedResult);
             return decryptedResult;
         } catch (error) {
             console.error('检查密钥失败:', error);
+            console.error('错误堆栈:', error.stack);
             throw error;
         }
     }
@@ -156,13 +196,21 @@ submitCheckBtn.addEventListener('click', async () => {
     submitCheckBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 查询中...';
 
     try {
+        console.log('开始查询密钥:', cardKey);
         const api = new CardKeyAPI();
         const result = await api.checkCard(cardKey);
+        console.log('查询成功，结果:', result);
         handleCheckResult(result);
     } catch (error) {
+        console.error('查询失败，详细错误:', error);
         // 检查是否为404错误
         if (error.message.includes('404')) {
             showError('密钥无效');
+        } else if (error.message.includes('Failed to fetch')) {
+            showError('网络错误：无法连接到API服务器。请检查网络连接或稍后再试。');
+            console.error('Failed to fetch错误详情:', error);
+        } else if (error.message.includes('HTTP错误')) {
+            showError('服务器错误：' + error.message);
         } else {
             showError('查询失败：' + error.message);
         }
