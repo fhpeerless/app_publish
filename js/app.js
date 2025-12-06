@@ -62,7 +62,7 @@ const appData = [
         `,
         imgUrl: "https://picsum.photos/seed/app1/800/400",
         downloadLink: "#" // 替换为真实下载链接
-    },
+    }/*,
     {
         id: 2,
         title: "健康管家",
@@ -106,7 +106,7 @@ const appData = [
         `,
         imgUrl: "https://picsum.photos/seed/app3/800/400",
         downloadLink: "#" // 替换为真实下载链接
-    }
+    }*/
 ];
 
 // DOM元素获取
@@ -319,4 +319,5 @@ cardKeyInput.addEventListener('keypress', (e) => {
 // 初始化：确保列表页默认显示
 document.addEventListener('DOMContentLoaded', () => {
     appListPage.classList.add('active');
+
 });
