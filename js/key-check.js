@@ -50,7 +50,8 @@ class CardKeyAPI {
         
         // 启用CORS代理，解决HTTPS到HTTP的混合内容问题
         this.useProxy = true;
-        this.proxyUrl = "https://cors-anywhere.herokuapp.com/";
+        // 使用Cloudflare Worker作为CORS代理
+        this.proxyUrl = "https://my-cors-proxy.68208932.workers.dev/?url=";
         
         this.apiKey = "fhpeerless";
         this.aesKey = "nIpDDCrGKmN7d4nqRmIVfwHZgzCKDf/qdkGbL97/gEY=";
@@ -63,8 +64,8 @@ class CardKeyAPI {
         // 应用代理（如果启用）
         let url;
         if (this.useProxy) {
-            // 对于大多数代理，我们不需要encodeURIComponent
-            url = `${this.proxyUrl}${baseUrl}`;
+            // 对于Cloudflare Worker代理，我们需要将目标URL作为查询参数并进行编码
+            url = `${this.proxyUrl}${encodeURIComponent(baseUrl)}`;
         } else {
             url = baseUrl;
         }
