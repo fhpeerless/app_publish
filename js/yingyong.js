@@ -18,7 +18,7 @@ const appData = [
             <h4>适配平台</h4>
             <p>Windows / macOS /</p>
             <h4>更新日志</h4>
-            <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
+            <p>v1.0 </p>
         `,
         imgUrl: "https://i0.hdslb.com/bfs/mallup/mall/2x/03/2x03zy10x0zy02x23xx302zzw3x300w0.png@.webp",
         videoEmbed: "<iframe src=\"https://player.bilibili.com/player.html?isOutside=true&aid=1303107810&bvid=BV1LM4m1X7dk&cid=1508435093&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
