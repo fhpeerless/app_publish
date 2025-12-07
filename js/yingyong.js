@@ -1,7 +1,7 @@
 // 应用数据（模拟后端数据，可替换为真实接口请求）
 const appData = [
     {
-        id: 1,
+        id: 3,
         title: "谷歌多开",
         tag: "效率工具",
         shortDesc: "一键多开指定数量的google的浏览器。",
@@ -28,32 +28,33 @@ const appData = [
         ]
     },
     {
-        id: 2,
-        title: "健康管家",
-        tag: "健康生活",
-        shortDesc: "记录饮食、运动、睡眠数据，生成个性化健康分析报告。",
+        id: 1,
+        title: "获取目录内的空间使用情况",
+        tag: "脚本",
+        shortDesc: "根据各个文件夹所占空间大小依次排列。",
         fullDesc: `
             <h4>核心功能</h4>
             <ul>
-                <li>饮食记录：扫描条形码快速录入食物信息，自动计算热量</li>
-                <li>运动追踪：支持步行、跑步、骑行等10+种运动模式自动识别</li>
-                <li>睡眠监测：结合手机传感器分析睡眠质量，给出改善建议</li>
-                <li>健康报告：每周生成可视化健康分析，预警潜在健康风险</li>
-                <li>数据导出：支持将健康数据导出为PDF，方便分享给医生</li>
+                <li>文件小，容易存储</li>
+                <li>源码开源不存在使用问题</li>
+                <li>对电脑影响较小</li>
+                <li>每个文件夹的空间大小清晰可见，</li>
+                <li>按大小清除无用垃圾，避免清里程序清理不到的自用缓存文件</li>
             </ul>
             <h4>适配平台</h4>
-            <p>iOS / Android（需开启健康权限）</p>
+            <p>Windows / macOS </p>
             <h4>更新日志</h4>
-            <p>v3.0.0 (2025-02-20)：新增血糖记录模块，支持血糖仪数据同步</p>
+            <p>v1.0.0 (2025-)</p>
         `,
         imgUrl: "https://picsum.photos/seed/app2/800/400",
+        videoEmbed: "<iframe src=\"https://player.bilibili.com/player.html?isOutside=true&aid=1303107810&bvid=BV1LM4m1X7dk&cid=1508435093&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
         downloadLinks: [
-            { platform: "iOS", link: "#ios" },
-            { platform: "Android", link: "#android" }
+            { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40086188&loadingShow=1&noTitleBar=1&msource=merchant_share" },
+            { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40086188&loadingShow=1&noTitleBar=1&msource=merchant_share" }
         ]
     },
     {
-        id: 3,
+        id: 2,
         title: "任务清单",
         tag: "效率工具",
         shortDesc: "可视化任务管理工具，支持自定义标签、截止日期提醒。",
