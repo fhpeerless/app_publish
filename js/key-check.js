@@ -5,17 +5,14 @@ class AESUtils {
     constructor(key, iv) {
         // 密钥处理：与后端Python保持一致
         // 后端使用：hashlib.sha256(key.encode()).digest()[:32]
-        // 前端需要：先将Base64编码的key解码，再转换为UTF-8字节，然后进行SHA256哈希
-        const keyBytes = CryptoJS.enc.Base64.parse(key);
-        const keyUtf8 = CryptoJS.enc.Utf8.stringify(keyBytes);
-        const keyUtf8Bytes = CryptoJS.enc.Utf8.parse(keyUtf8);
+        // 前端需要：直接将key字符串进行SHA256哈希
+        const keyUtf8Bytes = CryptoJS.enc.Utf8.parse(key);
         this.key = CryptoJS.SHA256(keyUtf8Bytes);
         
         // IV处理：确保长度为16字节，与后端Python的处理方式完全一致
         if (iv) {
-            // 与后端Python一致：先将Base64编码的iv解码，然后用空格填充到16字节
-            const ivBytes = CryptoJS.enc.Base64.parse(iv);
-            const ivUtf8 = CryptoJS.enc.Utf8.stringify(ivBytes);
+            // 与后端Python一致：直接将iv字符串进行处理，用空格填充到16字节
+            const ivUtf8 = iv;
             
             // 创建16字节的数组，用空格（0x20）填充
             const paddedIVBytes = new Uint8Array(16);
@@ -62,9 +59,9 @@ class AESUtils {
 
 // 卡密API客户端
 class CardKeyAPI {
-    constructor() {
-        // 后端API地址 - 使用生产环境服务器
-        this.baseUrl = "http://175.27.253.177:8000";
+    constructor(baseUrl = "http://175.27.253.177:8000") {
+        // 后端API地址 - 支持本地测试和生产环境切换
+        this.baseUrl = baseUrl;
         
         this.apiKey = "fhpeerless";
         this.aesKey = "nIpDDCrGKmN7d4nqRmIVfwHZgzCKDf/qdkGbL97/gEY=";
@@ -237,7 +234,9 @@ function initializePage() {
 
         try {
             console.log('开始查询密钥:', cardKey);
-            const api = new CardKeyAPI();
+            // 直接使用生产环境API地址
+            const apiUrl = 'http://175.27.253.177:8000';
+            const api = new CardKeyAPI(apiUrl);
             const result = await api.checkCard(cardKey);
             console.log('查询成功，结果:', result);
             handleCheckResult(result);
