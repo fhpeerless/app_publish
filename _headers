@@ -1,0 +1,10 @@
+# 对所有页面生效
+/*
+  # 禁止网页缓存的核心响应头
+  Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate
+  Pragma: no-cache
+  Expires: 0
+  # 强化SSL/HTTPS安全（HSTS），防止HTTP降级攻击
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # 可选：增强SSL相关安全防护
+  X-Content-Type-Options: nosniff
