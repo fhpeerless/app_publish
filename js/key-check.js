@@ -235,7 +235,7 @@ function initializePage() {
         try {
             console.log('开始查询密钥:', cardKey);
             // 直接使用生产环境API地址
-            const apiUrl = 'http://175.27.253.177:8000';
+            const apiUrl = 'https://api.ddda.cc';
             const api = new CardKeyAPI(apiUrl);
             const result = await api.checkCard(cardKey);
             console.log('查询成功，结果:', result);
