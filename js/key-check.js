@@ -3,14 +3,32 @@
 // AES加密解密工具类
 class AESUtils {
     constructor(key, iv) {
-        // 与后端保持一致的密钥处理方式：SHA256哈希后取前32字节的原始二进制数据
-        this.key = CryptoJS.SHA256(key); // SHA256哈希后得到32字节的二进制数据
+        // 密钥处理：与后端Python保持一致
+        // 后端使用：hashlib.sha256(key.encode()).digest()[:32]
+        // 前端需要：先将Base64编码的key解码，再转换为UTF-8字节，然后进行SHA256哈希
+        const keyBytes = CryptoJS.enc.Base64.parse(key);
+        const keyUtf8 = CryptoJS.enc.Utf8.stringify(keyBytes);
+        const keyUtf8Bytes = CryptoJS.enc.Utf8.parse(keyUtf8);
+        this.key = CryptoJS.SHA256(keyUtf8Bytes);
         
-        // IV处理：确保长度为16字节
+        // IV处理：确保长度为16字节，与后端Python的处理方式完全一致
         if (iv) {
-            // 与后端一致：将IV转换为UTF-8编码，然后补到16字节
-            const ivStr = iv.substring(0, 16).padEnd(16, ' ');
-            this.iv = CryptoJS.enc.Utf8.parse(ivStr);
+            // 与后端Python一致：先将Base64编码的iv解码，然后用空格填充到16字节
+            const ivBytes = CryptoJS.enc.Base64.parse(iv);
+            const ivUtf8 = CryptoJS.enc.Utf8.stringify(ivBytes);
+            
+            // 创建16字节的数组，用空格（0x20）填充
+            const paddedIVBytes = new Uint8Array(16);
+            paddedIVBytes.fill(0x20); // ASCII空格
+            
+            // 复制原始IV到填充后的数组
+            const ivTextBytes = new TextEncoder().encode(ivUtf8);
+            paddedIVBytes.set(ivTextBytes.slice(0, 16), 0);
+            
+            // 将Uint8Array转换为WordArray
+            const ivWordArray = CryptoJS.lib.WordArray.create(paddedIVBytes);
+            
+            this.iv = ivWordArray;
         } else {
             // 默认使用密钥前16字节作为IV
             this.iv = CryptoJS.lib.WordArray.create(this.key.words.slice(0, 4)); // 4个32位字 = 16字节
@@ -45,13 +63,8 @@ class AESUtils {
 // 卡密API客户端
 class CardKeyAPI {
     constructor() {
-        // 后端API地址 - 使用远程服务器（注意：这里使用http协议，因为服务器不支持HTTPS）
+        // 后端API地址 - 使用生产环境服务器
         this.baseUrl = "http://175.27.253.177:8000";
-        
-        // 启用CORS代理，解决HTTPS到HTTP的混合内容问题
-        this.useProxy = true;
-        // 使用Cloudflare Worker作为CORS代理（Worker已配置直接转发到目标API）
-        this.proxyUrl = "https://my-cors-proxy.68208932.workers.dev";
         
         this.apiKey = "fhpeerless";
         this.aesKey = "nIpDDCrGKmN7d4nqRmIVfwHZgzCKDf/qdkGbL97/gEY=";
@@ -60,15 +73,8 @@ class CardKeyAPI {
     }
 
     async checkCard(cardKey) {
-        // 应用代理（如果启用）
-        let url;
-        if (this.useProxy) {
-            // 由于Cloudflare Worker已配置直接转发到目标API，我们直接使用Worker URL
-            url = this.proxyUrl;
-        } else {
-            // 不使用代理时直接访问API（注意：这种方式在HTTPS前端中会导致混合内容错误）
-            url = `${this.baseUrl}/api/check`;
-        }
+        // 直接访问API接口
+        const url = `${this.baseUrl}/api/check`;
         
         const plainPayload = { card_key: cardKey.trim() };
         const encryptedPayload = this.aes.encrypt(JSON.stringify(plainPayload));
@@ -76,9 +82,6 @@ class CardKeyAPI {
         try {
             console.log('发送API请求:', url);
             console.log('请求数据:', { data: encryptedPayload });
-            console.log('是否使用代理:', this.useProxy);
-            
-            // 使用CORS代理发送请求
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',
@@ -101,45 +104,37 @@ class CardKeyAPI {
             }
 
             // 解析响应，Worker代理会直接返回目标API的响应
-            let encryptedResult;
+            let responseText;
             try {
-                // 首先检查响应内容类型
-                const contentType = response.headers.get('Content-Type');
-                console.log('响应Content-Type:', contentType);
+                // 首先读取原始响应文本，以便调试
+                responseText = await response.text();
+                console.log('原始响应文本:', responseText);
                 
-                if (contentType && contentType.includes('application/json')) {
-                    encryptedResult = await response.json();
-                    console.log('解析后的JSON响应:', encryptedResult);
+                // 尝试解析JSON
+                const responseData = JSON.parse(responseText);
+                console.log('解析后的响应数据:', responseData);
+                
+                // 根据后端API结构处理响应
+                if (responseData && responseData.data) {
+                    // 解密响应数据
+                    let decryptedResult;
+                    try {
+                        decryptedResult = JSON.parse(this.aes.decrypt(responseData.data));
+                        console.log('解密响应:', decryptedResult);
+                        return decryptedResult;
+                    } catch (decryptError) {
+                        console.error('解密响应失败:', decryptError);
+                        console.error('解密失败的密文:', responseData.data);
+                        throw new Error(`解密响应失败: ${decryptError.message}`);
+                    }
                 } else {
-                    // 如果不是JSON格式，尝试直接读取文本
-                    const responseText = await response.text();
-                    console.log('响应文本:', responseText);
-                    throw new Error(`API响应不是JSON格式: ${responseText}`);
+                    // 如果没有data字段，可能是直接返回的错误信息
+                    throw new Error(`API响应格式错误: ${responseText}`);
                 }
-            } catch (jsonError) {
-                // 如果JSON解析失败，尝试直接读取响应文本
-                const responseText = await response.text();
-                console.log('JSON解析失败，原始响应文本:', responseText);
-                throw new Error(`API响应格式错误: ${jsonError.message}`);
-            }
-            
-            console.log('加密响应:', encryptedResult);
-            
-            // 检查响应中是否包含data字段
-            if (!encryptedResult || !encryptedResult.data) {
-                console.error('API响应缺少data字段:', encryptedResult);
-                throw new Error('API响应格式错误：缺少data字段');
-            }
-            
-            // 解密响应数据
-            let decryptedResult;
-            try {
-                decryptedResult = JSON.parse(this.aes.decrypt(encryptedResult.data));
-                console.log('解密响应:', decryptedResult);
-                return decryptedResult;
-            } catch (decryptError) {
-                console.error('解密响应失败:', decryptError);
-                throw new Error(`解密响应失败: ${decryptError.message}`);
+            } catch (parseError) {
+                console.error('响应解析失败:', parseError);
+                console.error('失败的响应文本:', responseText);
+                throw new Error(`API响应格式错误: ${parseError.message}`);
             }
         } catch (error) {
             console.error('检查密钥失败:', error);
@@ -148,13 +143,6 @@ class CardKeyAPI {
         }
     }
 }
-
-// DOM元素获取（密钥查询相关）
-const submitCheckBtn = document.getElementById('submitCheckBtn');
-const cardKeyInput = document.getElementById('cardKeyInput');
-const checkResult = document.getElementById('checkResult');
-const checkError = document.getElementById('checkError');
-const errorMessage = document.getElementById('errorMessage');
 
 // 格式化日期
 function formatDate(dateString) {
@@ -179,17 +167,19 @@ function handleCheckResult(result) {
     const resultExpireTime = document.getElementById('resultExpireTime');
     const resultRemainingDays = document.getElementById('resultRemainingDays');
 
-    // API响应包含data对象嵌套
-    const data = result.data;
-    resultCardKey.textContent = data.card_key;
-    resultDays.textContent = `${data.days} 天`;
-    resultActivateTime.textContent = formatDate(data.activate_time);
-    resultExpireTime.textContent = formatDate(data.expire_time);
-    resultRemainingDays.textContent = `${data.remaining_days} 天`;
+    // 直接使用响应数据（根据后端API结构，解密后直接得到data对象）
+    console.log('处理的响应结果:', result);
+    
+    // 设置显示内容
+    resultCardKey.textContent = result.card_key;
+    resultDays.textContent = `${result.days} 天`;
+    resultActivateTime.textContent = formatDate(result.activate_time);
+    resultExpireTime.textContent = formatDate(result.expire_time);
+    resultRemainingDays.textContent = `${result.remaining_days} 天`;
 
     // 设置状态显示
-    if (data.is_active) {
-        if (data.remaining_days > 0) {
+    if (result.is_active) {
+        if (result.remaining_days > 0) {
             resultStatus.innerHTML = '<span class="status-active">✅ 已激活</span>';
         } else {
             resultStatus.innerHTML = '<span class="status-expired">❌ 已过期</span>';
@@ -210,47 +200,73 @@ function showError(message) {
     checkResult.classList.add('hidden');
 }
 
-// 绑定查询按钮事件
-submitCheckBtn.addEventListener('click', async () => {
-    const cardKey = cardKeyInput.value.trim();
-    if (!cardKey) {
-        showError('请输入密钥');
+// 页面加载完成后执行初始化
+if (document.readyState === 'loading') {
+    // 页面正在加载中
+    document.addEventListener('DOMContentLoaded', initializePage);
+} else {
+    // 页面已经加载完成
+    initializePage();
+}
+
+function initializePage() {
+    // DOM元素获取（密钥查询相关）
+    const submitCheckBtn = document.getElementById('submitCheckBtn');
+    const cardKeyInput = document.getElementById('cardKeyInput');
+    const checkResult = document.getElementById('checkResult');
+    const checkError = document.getElementById('checkError');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // 检查DOM元素是否存在
+    if (!submitCheckBtn || !cardKeyInput || !checkResult || !checkError || !errorMessage) {
+        console.log('未找到卡密查询相关DOM元素，可能当前页面不是卡密查询页面');
         return;
     }
 
-    // 显示加载状态
-    submitCheckBtn.disabled = true;
-    submitCheckBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 查询中...';
-
-    try {
-        console.log('开始查询密钥:', cardKey);
-        const api = new CardKeyAPI();
-        const result = await api.checkCard(cardKey);
-        console.log('查询成功，结果:', result);
-        handleCheckResult(result);
-    } catch (error) {
-        console.error('查询失败，详细错误:', error);
-        // 检查是否为404错误
-        if (error.message.includes('404')) {
-            showError('密钥无效');
-        } else if (error.message.includes('Failed to fetch')) {
-            showError('网络错误：无法连接到API服务器。请检查网络连接或稍后再试。');
-            console.error('Failed to fetch错误详情:', error);
-        } else if (error.message.includes('HTTP错误')) {
-            showError('服务器错误：' + error.message);
-        } else {
-            showError('查询失败：' + error.message);
+    // 绑定查询按钮事件
+    submitCheckBtn.addEventListener('click', async () => {
+        const cardKey = cardKeyInput.value.trim();
+        if (!cardKey) {
+            showError('请输入密钥');
+            return;
         }
-    } finally {
-        // 恢复按钮状态
-        submitCheckBtn.disabled = false;
-        submitCheckBtn.innerHTML = '<i class="fa-solid fa-search"></i> 查询';
-    }
-});
 
-// 添加回车键提交支持
-cardKeyInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        submitCheckBtn.click();
-    }
-});
+        // 显示加载状态
+        submitCheckBtn.disabled = true;
+        submitCheckBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 查询中...';
+
+        try {
+            console.log('开始查询密钥:', cardKey);
+            const api = new CardKeyAPI();
+            const result = await api.checkCard(cardKey);
+            console.log('查询成功，结果:', result);
+            handleCheckResult(result);
+        } catch (error) {
+            console.error('查询失败，详细错误:', error);
+            // 检查是否为404错误
+            if (error.message.includes('404')) {
+                showError('密钥无效');
+            } else if (error.message.includes('Failed to fetch')) {
+                showError('网络错误：无法连接到API服务器。请检查网络连接或稍后再试。\n错误详情: ' + error.message);
+                console.error('Failed to fetch错误详情:', error);
+            } else if (error.message.includes('HTTP错误')) {
+                showError('服务器错误：' + error.message);
+            } else {
+                showError('查询失败：' + error.message + '\n错误类型: ' + error.name);
+            }
+        } finally {
+            // 恢复按钮状态
+            submitCheckBtn.disabled = false;
+            submitCheckBtn.innerHTML = '<i class="fa-solid fa-search"></i> 查询';
+        }
+    });
+
+    // 添加回车键提交支持
+    cardKeyInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            submitCheckBtn.click();
+        }
+    });
+
+    console.log('密钥查询功能初始化完成');
+}
