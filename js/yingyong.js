@@ -208,6 +208,11 @@ function initYingyong() {
     generateAppCards();
 }
 
+// 页面加载完成后自动初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initYingyong();
+});
+
 // 导出函数（如果需要在其他地方调用）
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
