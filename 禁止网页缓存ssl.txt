@@ -1,4 +1,5 @@
 # 对所有页面生效
+文件名修改为这个即为生效_headers)
 /*
   # 禁止网页缓存的核心响应头
   Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate
