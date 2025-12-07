@@ -59,7 +59,7 @@ class AESUtils {
 
 // 卡密API客户端
 class CardKeyAPI {
-    constructor(baseUrl = "http://175.27.253.177:8000") {
+    constructor(baseUrl = "https://api.ddda.cc") {
         // 后端API地址 - 支持本地测试和生产环境切换
         this.baseUrl = baseUrl;
         
