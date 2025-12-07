@@ -360,25 +360,25 @@ body {
     align-items: center;
     gap: 8px;
     padding: 12px 24px;
-    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
-    color: #334155;
+    background: linear-gradient(135deg, #8B0000, #A52A2A);
+    color: white;
     text-decoration: none;
     border: none;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(148, 163, 184, 0.2);
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.3);
 }
 
 .btn-secondary:hover {
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    background: linear-gradient(135deg, #A52A2A, #B22222);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.3);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
 }
 
 .btn-secondary:hover {
-    background-color: #e2e8f0;
+    background-color: #A52A2A;
 }
 
 /* 卡密查询页面样式 */
@@ -768,13 +768,13 @@ body {
 }
 
 .dark-theme .btn-secondary {
-    background-color: var(--secondary-color);
+    background: linear-gradient(135deg, #8B0000, #A52A2A);
     color: white;
     border-color: var(--border-color);
 }
 
 .dark-theme .btn-secondary:hover {
-    background-color: var(--secondary-hover);
+    background: linear-gradient(135deg, #A52A2A, #B22222);
     color: white;
 }
 
