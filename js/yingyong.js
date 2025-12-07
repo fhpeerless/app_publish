@@ -18,7 +18,7 @@ const appData = [
             <h4>适配平台</h4>
             <p>Windows / macOS /</p>
             <h4>更新日志</h4>
-            <p>v1.0 </p>
+            <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
         imgUrl: "https://i0.hdslb.com/bfs/mallup/mall/2x/03/2x03zy10x0zy02x23xx302zzw3x300w0.png@.webp",
         videoEmbed: "<iframe src=\"https://player.bilibili.com/player.html?isOutside=true&aid=1303107810&bvid=BV1LM4m1X7dk&cid=1508435093&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
@@ -86,7 +86,6 @@ const appData = [
 // DOM元素获取
 const appListPage = document.getElementById('appListPage');
 const appDetailPage = document.getElementById('appDetailPage');
-const backBtn = document.getElementById('backBtn');
 const appGrid = document.getElementById('appGrid');
 let appCards;
 
@@ -95,7 +94,6 @@ function showDetailPage(appId) {
     // 隐藏列表页，显示详情页
     appListPage.classList.remove('active');
     appDetailPage.classList.add('active');
-    backBtn.classList.remove('hidden');
 
     // 查找对应应用数据
     const app = appData.find(item => item.id === parseInt(appId));
@@ -151,7 +149,6 @@ function showListPage() {
     // 隐藏详情页，显示列表页
     appDetailPage.classList.remove('active');
     appListPage.classList.add('active');
-    backBtn.classList.add('hidden');
 }
 
 // 动态生成应用卡片函数
@@ -168,9 +165,19 @@ function generateAppCards() {
         // 生成卡片图片或视频内容
         let mediaContent;
         if (app.videoEmbed) {
-            mediaContent = app.videoEmbed;
+            // 为视频添加错误处理和占位符
+            // 修改B站播放器参数，添加autoplay=0防止自动播放
+            let fixedVideoEmbed = app.videoEmbed.replace('&p=1', '&p=1&autoplay=0');
+            mediaContent = `
+                ${fixedVideoEmbed}
+                <div class="video-placeholder">
+                    <i class="fa-solid fa-play-circle"></i>
+                    <p>视频无法加载</p>
+                </div>
+            `;
         } else {
-            mediaContent = `<img src="${app.imgUrl}" alt="${app.title}">`;
+            // 为图片添加错误处理
+            mediaContent = `<img src="${app.imgUrl}" alt="${app.title}" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2UyZThmMCIvPgogIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjIwMCIgcj0iNDAiIGZpbGw9IiM5M2M1ZmQiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzNDE1NSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7miJHlj4fljJfmmK/lkIPlhb/liqHmuLjlj4zkvJTkuIrlvIDlj6/mp7DmsYPlm77mmK/lkIPlhb/lpKflrp48L3RleHQ+Cjwvc3ZnPg==';">`;
         }
         
         card.innerHTML = `
@@ -200,8 +207,6 @@ function generateAppCards() {
 }
 
 // 绑定事件
-// 返回按钮点击事件
-backBtn.addEventListener('click', showListPage);
 
 // 初始化函数
 function initYingyong() {

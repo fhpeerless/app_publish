@@ -9,7 +9,6 @@ function initEventListeners() {
     
     // 导航按钮获取
     const checkCardBtn = document.getElementById('checkCardBtn');
-    const backBtn = document.getElementById('backBtn');
     const backToAppList = document.getElementById('backToAppList');
 
     // 显示指定页面，隐藏其他页面
@@ -21,13 +20,6 @@ function initEventListeners() {
         
         // 显示指定页面
         page.classList.add('active');
-        
-        // 控制返回按钮的显示
-        if (page === appDetailPage || page === keyCheckPage) {
-            backBtn.classList.remove('hidden');
-        } else {
-            backBtn.classList.add('hidden');
-        }
     }
 
     // 返回列表页
@@ -42,18 +34,24 @@ function initEventListeners() {
         });
     }
     
-    // 返回按钮点击事件
-    if (backBtn) {
-        backBtn.addEventListener('click', goBackToList);
-    }
-    
     // 密钥查询页面的返回应用列表按钮
     if (backToAppList) {
         backToAppList.addEventListener('click', goBackToList);
     }
+    
+    // 首页按钮点击事件
+    const backToHome = document.getElementById('backToHome');
+    if (backToHome) {
+        backToHome.addEventListener('click', goBackToList);
+    }
 
     // 初始化：确保列表页默认显示并生成应用卡片
     showPage(appListPage);
+    
+    // 确保应用卡片被生成
+    if (typeof initYingyong === 'function') {
+        initYingyong();
+    }
 }
 
 // 在DOM加载完成后初始化

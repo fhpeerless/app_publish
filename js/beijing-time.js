@@ -11,6 +11,7 @@ function updateTime() {
     second: '2-digit',
     hour12: false
   });
+  // 只显示时间，不包含版权信息
   document.getElementById('beijing-time').textContent = beijingTime;
 }
 
