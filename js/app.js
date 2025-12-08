@@ -39,10 +39,12 @@ function initEventListeners() {
         backToAppList.addEventListener('click', goBackToList);
     }
     
-    // 首页按钮点击事件
-    const backToHome = document.getElementById('backToHome');
-    if (backToHome) {
-        backToHome.addEventListener('click', goBackToList);
+    // 移除了首页按钮的事件监听器
+    
+    // 导航栏首页按钮点击事件
+    const homeBtn = document.getElementById('homeBtn');
+    if (homeBtn) {
+        homeBtn.addEventListener('click', goBackToList);
     }
 
     // 初始化：确保列表页默认显示并生成应用卡片

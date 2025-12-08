@@ -21,7 +21,7 @@ const appData = [
             <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
         imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
-        videoEmbed: "",
+
         downloadLinks: [
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" },
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" }
@@ -72,7 +72,7 @@ const appData = [
             <h4>更新日志</h4>
             <p>v1.8.0 (2025-03-10)：新增AI任务规划，根据截止日期自动分配优先级</p>
         `,
-        imgUrl: "https://cdn.pixabay.com/photo/2019/12/19/10/55/christmas-market-4705877_1280.jpg",
+        imgUrl: "https://picsum.photos/seed/app3/800/400",
         downloadLinks: [
             { platform: "Windows", link: "#windows" },
             { platform: "macOS", link: "#macos" },
@@ -101,19 +101,105 @@ function showDetailPage(appId) {
 
     // 渲染详情页内容
     const detailImgContainer = document.querySelector('.detail-img');
-    const detailImg = document.getElementById('detailImg');
     
     // 清空容器内容
     detailImgContainer.innerHTML = '';
     
     if (app.videoEmbed) {
-        // 如果有视频嵌入代码，显示视频
-        detailImgContainer.innerHTML = app.videoEmbed;
+        // 如果有视频嵌入代码，显示视频并添加图片作为备选
+        // 修改B站播放器参数，添加autoplay=0防止自动播放
+        let fixedVideoEmbed = app.videoEmbed.replace('&p=1', '&p=1&autoplay=0');
+        
+        // 创建一个包含视频和图片的容器
+        const mediaContainer = document.createElement('div');
+        mediaContainer.style.position = 'relative';
+        mediaContainer.style.width = '100%';
+        mediaContainer.style.height = '100%';
+        
+        // 创建新的图片元素作为底层显示
+        const imgElement = document.createElement('img');
+        imgElement.id = 'detailImg';
+        imgElement.src = app.imgUrl;
+        imgElement.alt = app.title;
+        imgElement.style.width = '100%';
+        imgElement.style.height = '100%';
+        imgElement.style.objectFit = 'cover';
+        
+        // 添加图片加载错误处理，使用Base64占位图
+        imgElement.onerror = function() {
+            this.onerror = null;
+            // 使用Base64编码的占位图
+            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2UyZThmMCIvPgogIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjIwMCIgcj0iNDAiIGZpbGw9IiM5M2M1ZmQiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzNDE1NSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7miJHlj4fljJfmmK/lkIPlhb/liqHmuLjlj4zkvJTkuIrlvIDlj6/mp7DmsYPlm77mmK/lkIPlhb/lpKflrp48L3RleHQ+Cjwvc3ZnPg==';
+        };
+        
+        // 添加视频
+        const videoDiv = document.createElement('div');
+        videoDiv.innerHTML = fixedVideoEmbed;
+        videoDiv.style.position = 'absolute';
+        videoDiv.style.top = '0';
+        videoDiv.style.left = '0';
+        videoDiv.style.width = '100%';
+        videoDiv.style.height = '100%';
+        
+        // 尝试获取iframe元素并添加错误处理
+        const iframe = videoDiv.querySelector('iframe');
+        if (iframe) {
+            // 监听iframe加载完成事件
+            iframe.onload = function() {
+                // 检查iframe内容是否加载成功
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    // 如果能访问到文档，说明视频加载成功
+                } catch (e) {
+                    // 跨域错误，视频可能无法加载，隐藏视频显示图片
+                    videoDiv.style.display = 'none';
+                }
+            };
+            
+            // 监听错误事件
+            iframe.onerror = function() {
+                // 视频加载失败，隐藏视频显示图片
+                videoDiv.style.display = 'none';
+            };
+            
+            // 设置超时，如果视频在5秒内还没加载成功，就隐藏视频显示图片
+            setTimeout(function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    // 如果iframe内容为空或无法访问，隐藏视频
+                    if (!iframeDoc || iframeDoc.body.innerHTML.trim() === '') {
+                        videoDiv.style.display = 'none';
+                    }
+                } catch (e) {
+                    videoDiv.style.display = 'none';
+                }
+            }, 5000);
+        }
+        
+        // 将元素添加到容器
+        mediaContainer.appendChild(imgElement);
+        mediaContainer.appendChild(videoDiv);
+        
+        // 将容器添加到详情图容器
+        detailImgContainer.appendChild(mediaContainer);
     } else {
-        // 否则显示图片
-        detailImg.src = app.imgUrl;
-        detailImg.alt = app.title;
-        detailImgContainer.appendChild(detailImg);
+        // 否则显示图片 - 创建新的图片元素确保正确显示
+        const imgElement = document.createElement('img');
+        imgElement.id = 'detailImg';
+        imgElement.src = app.imgUrl;
+        imgElement.alt = app.title;
+        imgElement.style.width = '100%';
+        imgElement.style.height = '100%';
+        imgElement.style.objectFit = 'cover';
+        
+        // 添加图片加载错误处理，使用Base64占位图
+        imgElement.onerror = function() {
+            this.onerror = null;
+            // 使用Base64编码的占位图
+            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2UyZThmMCIvPgogIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjIwMCIgcj0iNDAiIGZpbGw9IiM5M2M1ZmQiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzNDE1NSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7miJHlj4fljJfmmK/lkIPlhb/liqHmuLjlj4zkvJTkuIrlvIDlj6/mp7DmsYPlm77mmK/lkIPlhb/lpKflrp48L3RleHQ+Cjwvc3ZnPg==';
+        };
+        
+        detailImgContainer.appendChild(imgElement);
     }
     
     document.getElementById('detailTitle').textContent = app.title;
