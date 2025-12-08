@@ -21,7 +21,7 @@ const appData = [
             <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
         imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
-
+        videoEmbed: "",
         downloadLinks: [
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" },
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" }
@@ -47,7 +47,7 @@ const appData = [
             <p>v1.0.0 (2025-)</p>
         `,
         imgUrl: "https://picsum.photos/seed/app2/800/400",
-        videoEmbed: "<iframe src=\"https://player.bilibili.com/player.html?isOutside=true&aid=1303107810&bvid=BV1LM4m1X7dk&cid=1508435093&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
+       
         downloadLinks: [
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40086188&loadingShow=1&noTitleBar=1&msource=merchant_share" },
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40086188&loadingShow=1&noTitleBar=1&msource=merchant_share" }
