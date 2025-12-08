@@ -1,7 +1,7 @@
 // 应用数据（模拟后端数据，可替换为真实接口请求）
 const appData = [
     {
-        id: 3,
+        id: 1,
         title: "谷歌多开",
         tag: "效率工具",
         shortDesc: "一键多开指定数量的google的浏览器。",
@@ -20,7 +20,7 @@ const appData = [
             <h4>更新日志</h4>
             <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
-        imgUrl: "https://cdn.pixabay.com/photo/2024/10/18/20/50/candle-9131407_960_720.jpg",
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
         videoEmbed: "",
         downloadLinks: [
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" },
@@ -28,7 +28,7 @@ const appData = [
         ]
     },
     {
-        id: 1,
+        id: 2,
         title: "获取目录内的空间使用情况",
         tag: "脚本",
         shortDesc: "根据各个文件夹所占空间大小依次排列。",
@@ -54,7 +54,7 @@ const appData = [
         ]
     },
     {
-        id: 2,
+        id: 3,
         title: "任务清单",
         tag: "效率工具",
         shortDesc: "可视化任务管理工具，支持自定义标签、截止日期提醒。",
@@ -72,7 +72,7 @@ const appData = [
             <h4>更新日志</h4>
             <p>v1.8.0 (2025-03-10)：新增AI任务规划，根据截止日期自动分配优先级</p>
         `,
-        imgUrl: "https://picsum.photos/seed/app3/800/400",
+        imgUrl: "https://cdn.pixabay.com/photo/2019/12/19/10/55/christmas-market-4705877_1280.jpg",
         downloadLinks: [
             { platform: "Windows", link: "#windows" },
             { platform: "macOS", link: "#macos" },
