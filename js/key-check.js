@@ -59,8 +59,8 @@ class AESUtils {
 
 // 卡密API客户端
 class CardKeyAPI {
-    constructor(baseUrl = "https://api.ddda.cc") {
-        // 后端API地址 - 支持本地测试和生产环境切换
+    constructor(baseUrl = "/") {
+        // 后端API地址 - 使用相对路径，连接到当前域名的API服务器
         this.baseUrl = baseUrl;
         
         this.apiKey = "fhpeerless";
