@@ -173,7 +173,6 @@ function handleCheckResult(result) {
     resultDays.textContent = `${cardData.days} 天`;
     resultActivateTime.textContent = formatDate(cardData.activate_time);
     resultExpireTime.textContent = formatDate(cardData.expire_time);
-    resultRemainingDays.textContent = `${cardData.remaining_days} 天`;
 
     // 设置状态显示 - 正确判断激活状态和过期时间
     console.log(`卡密数据:`, cardData);
@@ -181,15 +180,30 @@ function handleCheckResult(result) {
     // 检查卡密是否未激活
     if (!cardData.is_active || cardData.activate_time === null || cardData.expire_time === null) {
         resultStatus.innerHTML = '<span class="status-inactive">⚠️ 未激活</span>';
+        resultRemainingDays.textContent = '7 天'; // 未激活的卡密剩余时间显示为7天
     } else {
-        // 卡密已激活，计算精确的剩余时间（小时）
+        // 卡密已激活，计算精确的剩余时间
         const now = new Date();
         const expireTime = new Date(cardData.expire_time);
         const remainingHours = (expireTime - now) / (1000 * 60 * 60);
         
         console.log(`剩余小时数: ${remainingHours}`);
         
-        if (remainingHours > 1) {
+        // 根据剩余时间设置显示
+        if (remainingHours > 24) {
+            // 超过24小时，显示剩余天数
+            const remainingDays = Math.ceil(remainingHours / 24);
+            resultRemainingDays.textContent = `${remainingDays} 天`;
+        } else if (remainingHours > 0) {
+            // 不足24小时，显示剩余小时数
+            const remainingHoursInt = Math.ceil(remainingHours);
+            resultRemainingDays.textContent = `${remainingHoursInt} 小时`;
+        } else {
+            // 已过期
+            resultRemainingDays.textContent = '0 小时';
+        }
+        
+        if (remainingHours > 0) {
             resultStatus.innerHTML = '<span class="status-active">✅ 已激活</span>';
         } else {
             resultStatus.innerHTML = '<span class="status-expired">❌ 已过期</span>';
