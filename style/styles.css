@@ -292,17 +292,151 @@ body {
     padding-bottom: 20px;
 }
 
+/* 选项卡导航样式 */
+.detail-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: -1px;
+    position: relative;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px 8px 0 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.tab-btn:hover {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+.tab-btn.active {
+    background-color: #ffffff;
+    color: #8b5cf6;
+    border-color: #8b5cf6;
+    border-bottom-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.1);
+}
+
+/* 重叠内容区域样式 */
+.detail-tab-content {
+    min-height: 300px;
+    margin-bottom: 20px;
+}
+
+.tab-panel {
+    display: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 0 8px 8px 8px;
+    background-color: #ffffff;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
 .detail-desc-full {
+    padding: 24px;
+    border-left: 4px solid #8b5cf6;
     color: #475569;
     font-size: 15px;
     line-height: 1.8;
 }
 
+/* 使用协议样式 */
+.detail-user-agreement {
+    padding: 24px;
+    border-left: 4px solid #8b5cf6;
+}
+
+.detail-user-agreement h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.detail-user-agreement ol {
+    padding-left: 20px;
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.detail-user-agreement li {
+    margin-bottom: 12px;
+}
+
+.detail-user-agreement li:last-child {
+    margin-bottom: 0;
+}
+
 .detail-actions {
-    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+}
+
+/* 暗色主题下的应用详情页面样式 */
+.dark-theme .detail-container {
+    background-color: var(--card-bg);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme .detail-title {
+    color: var(--text-color);
+}
+
+.dark-theme .detail-tag {
+    background-color: rgba(139, 92, 246, 0.2);
+    color: var(--primary-color);
+}
+
+.dark-theme .detail-desc-short {
+    color: var(--text-secondary);
+    border-bottom-color: var(--border-color);
+}
+
+.dark-theme .detail-tabs {
+    border-bottom-color: var(--border-color);
+}
+
+.dark-theme .tab-btn {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.dark-theme .tab-btn:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-color);
+}
+
+.dark-theme .tab-btn.active {
+    background-color: var(--card-bg);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-bottom-color: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+}
+
+.dark-theme .tab-panel {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.dark-theme .detail-desc-full {
+    border-left-color: var(--primary-color);
+    color: var(--text-secondary);
 }
 
 .btn-primary {
@@ -564,7 +698,7 @@ body {
 
 /* 页脚样式 */
 .footer {
-    background-color: #ffffff;
+    background-color: #f8fafc;
     padding: 40px 0 20px;
     border-top: 1px solid #e2e8f0;
     margin-top: auto;
@@ -636,6 +770,25 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* 暗色主题下的页脚样式 */
+.dark-theme .footer {
+    background-color: var(--bg-color);
+    border-top-color: var(--border-color);
+}
+
+.dark-theme .footer-info span {
+    color: var(--text-secondary);
+}
+
+.dark-theme .footer-links a {
+    color: var(--text-secondary);
+}
+
+.dark-theme .footer-links a:hover {
+    color: var(--primary-color);
+    background-color: rgba(66, 153, 225, 0.1);
+}
+
 /* 响应式适配 */
 @media (max-width: 768px) {
     .app-grid {
@@ -644,6 +797,7 @@ body {
 
     .detail-container {
         grid-template-columns: 1fr;
+        margin: 20px 0;
     }
 
     .detail-img {
@@ -652,10 +806,23 @@ body {
 
     .detail-content {
         padding: 24px;
+        gap: 16px;
     }
 
     .detail-title {
         font-size: 24px;
+    }
+
+    .detail-user-agreement {
+        padding: 16px;
+    }
+
+    .detail-user-agreement h4 {
+        font-size: 16px;
+    }
+
+    .detail-user-agreement ol {
+        font-size: 14px;
     }
 
     .navbar .container {
@@ -821,6 +988,21 @@ body {
 
 .dark-theme .result-value {
     color: var(--text-color);
+}
+
+/* 暗色主题下的使用协议样式 */
+.dark-theme .detail-user-agreement {
+    background-color: var(--card-bg);
+    border-left-color: var(--primary-color);
+}
+
+.dark-theme .detail-user-agreement h4 {
+    color: var(--text-color);
+}
+
+.dark-theme .detail-user-agreement ol,
+.dark-theme .detail-user-agreement li {
+    color: var(--text-secondary);
 }
 
 .dark-theme .check-error {
