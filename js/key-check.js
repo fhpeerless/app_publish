@@ -164,19 +164,20 @@ function handleCheckResult(result) {
     const resultExpireTime = document.getElementById('resultExpireTime');
     const resultRemainingDays = document.getElementById('resultRemainingDays');
 
-    // 直接使用响应数据（根据后端API结构，解密后直接得到data对象）
+    // 解析API响应结构 - 实际响应是 {status: "success", data: {...}} 格式
     console.log('处理的响应结果:', result);
+    const cardData = result.data || result; // 兼容两种可能的响应格式
     
     // 设置显示内容
-    resultCardKey.textContent = result.card_key;
-    resultDays.textContent = `${result.days} 天`;
-    resultActivateTime.textContent = formatDate(result.activate_time);
-    resultExpireTime.textContent = formatDate(result.expire_time);
-    resultRemainingDays.textContent = `${result.remaining_days} 天`;
+    resultCardKey.textContent = cardData.card_key;
+    resultDays.textContent = `${cardData.days} 天`;
+    resultActivateTime.textContent = formatDate(cardData.activate_time);
+    resultExpireTime.textContent = formatDate(cardData.expire_time);
+    resultRemainingDays.textContent = `${cardData.remaining_days} 天`;
 
-    // 设置状态显示
-    if (result.is_active) {
-        if (result.remaining_days > 0) {
+    // 设置状态显示 - 根据remaining_days判断状态，因为API没有返回is_active字段
+    if (cardData.remaining_days !== undefined) {
+        if (cardData.remaining_days > 0) {
             resultStatus.innerHTML = '<span class="status-active">✅ 已激活</span>';
         } else {
             resultStatus.innerHTML = '<span class="status-expired">❌ 已过期</span>';
