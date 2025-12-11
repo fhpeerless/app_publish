@@ -195,11 +195,11 @@ function handleCheckResult(result) {
             resultStatus.innerHTML = '<span class="status-expired">❌ 已过期</span>';
         }
     }
-    }
 
     // 显示结果
     checkResult.classList.remove('hidden');
     checkError.classList.add('hidden');
+
 }
 
 // 显示错误信息
