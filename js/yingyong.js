@@ -20,6 +20,16 @@ const appData = [
             <h4>更新日志</h4>
             <p>v2.1.0 (2025-01-15)：新增AI总结功能，支持一键生成笔记摘要</p>
         `,
+        userAgreement: `
+            <h4>应用使用协议</h4>
+            <ol>
+                <li>本软件提供的是谷歌浏览器多开功能，仅供用户个人学习和研究使用。</li>
+                <li>用户在使用本软件时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
+                <li>本软件不对用户使用过程中产生的任何损失或风险承担责任。</li>
+                <li>用户购买软件后，将获得软件的使用权，但不得对软件进行破解、修改、反编译等操作。</li>
+                <li>本软件的最终解释权归开发者所有。</li>
+            </ol>
+        `,
         imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
         videoEmbed: "",
         downloadLinks: [
@@ -46,6 +56,16 @@ const appData = [
             <h4>更新日志</h4>
             <p>v1.0.0 (2025-)</p>
         `,
+        userAgreement: `
+            <h4>应用使用协议</h4>
+            <ol>
+                <li>本脚本用于获取目录内的空间使用情况，仅供用户个人学习和研究使用。</li>
+                <li>用户在使用本脚本时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
+                <li>本脚本不对用户使用过程中产生的任何损失或风险承担责任。</li>
+                <li>用户购买脚本后，将获得脚本的使用权，但不得对脚本进行破解、修改、反编译等操作。</li>
+                <li>本脚本的最终解释权归开发者所有。</li>
+            </ol>
+        `,
         imgUrl: "https://picsum.photos/seed/app2/800/400",
        
         downloadLinks: [
@@ -71,6 +91,16 @@ const appData = [
             <p>Windows / macOS / iOS / Android / 网页端</p>
             <h4>更新日志</h4>
             <p>v1.8.0 (2025-03-10)：新增AI任务规划，根据截止日期自动分配优先级</p>
+        `,
+        userAgreement: `
+            <h4>应用使用协议</h4>
+            <ol>
+                <li>本任务清单应用用于可视化任务管理，仅供用户个人学习和研究使用。</li>
+                <li>用户在使用本应用时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
+                <li>本应用不对用户使用过程中产生的任何损失或风险承担责任。</li>
+                <li>用户购买应用后，将获得应用的使用权，但不得对应用进行破解、修改、反编译等操作。</li>
+                <li>本应用的最终解释权归开发者所有。</li>
+            </ol>
         `,
         imgUrl: "https://picsum.photos/seed/app3/800/400",
         downloadLinks: [
@@ -207,6 +237,20 @@ function showDetailPage(appId) {
     document.getElementById('detailDesc').textContent = app.shortDesc;
     document.getElementById('detailFullDesc').innerHTML = app.fullDesc;
     
+    // 显示使用协议
+    const userAgreementSection = document.getElementById('detailUserAgreement');
+    if (userAgreementSection) {
+        userAgreementSection.innerHTML = app.userAgreement;
+    } else {
+        // 如果没有使用协议区域，创建一个
+        const detailContent = document.querySelector('.detail-content');
+        const agreementDiv = document.createElement('div');
+        agreementDiv.id = 'detailUserAgreement';
+        agreementDiv.className = 'detail-user-agreement tab-panel';
+        agreementDiv.innerHTML = app.userAgreement;
+        detailContent.insertBefore(agreementDiv, document.querySelector('.detail-actions'));
+    }
+    
     // 生成多个下载链接按钮
     const detailActions = document.querySelector('.detail-actions');
     detailActions.innerHTML = '';
@@ -229,6 +273,48 @@ function showDetailPage(appId) {
         downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> 立即下载';
         detailActions.appendChild(downloadBtn);
     }
+    
+    // 选项卡切换功能
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    
+    // 重置选项卡状态
+    tabBtns.forEach(btn => btn.classList.remove('active'));
+    tabPanels.forEach(panel => {
+        panel.classList.remove('active');
+        panel.style.display = 'none';
+    });
+    
+    // 默认显示核心功能
+    tabBtns[0].classList.add('active');
+    tabPanels[0].classList.add('active');
+    tabPanels[0].style.display = 'block';
+    
+    // 添加选项卡点击事件
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            
+            // 移除所有活动状态并隐藏所有面板
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabPanels.forEach(p => {
+                p.classList.remove('active');
+                p.style.display = 'none';
+            });
+            
+            // 添加当前活动状态并显示对应面板
+            btn.classList.add('active');
+            if (tab === 'fullDesc') {
+                const fullDescPanel = document.getElementById('detailFullDesc');
+                fullDescPanel.classList.add('active');
+                fullDescPanel.style.display = 'block';
+            } else if (tab === 'userAgreement') {
+                const agreementPanel = document.getElementById('detailUserAgreement');
+                agreementPanel.classList.add('active');
+                agreementPanel.style.display = 'block';
+            }
+        });
+    });
 }
 
 function showListPage() {
