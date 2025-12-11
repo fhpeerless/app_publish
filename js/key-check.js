@@ -175,9 +175,16 @@ function handleCheckResult(result) {
     resultExpireTime.textContent = formatDate(cardData.expire_time);
     resultRemainingDays.textContent = `${cardData.remaining_days} 天`;
 
-    // 设置状态显示 - 根据remaining_days判断状态，因为API没有返回is_active字段
+    // 设置状态显示 - 根据剩余时间判断状态（小于1小时显示过期）
     if (cardData.remaining_days !== undefined) {
-        if (cardData.remaining_days > 0) {
+        // 计算精确的剩余时间（小时）
+        const now = new Date();
+        const expireTime = new Date(cardData.expire_time);
+        const remainingHours = (expireTime - now) / (1000 * 60 * 60);
+        
+        console.log(`剩余小时数: ${remainingHours}`);
+        
+        if (remainingHours > 1) {
             resultStatus.innerHTML = '<span class="status-active">✅ 已激活</span>';
         } else {
             resultStatus.innerHTML = '<span class="status-expired">❌ 已过期</span>';
