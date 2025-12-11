@@ -26,7 +26,7 @@
             </div>
             <div class="navbar-actions">
                 <button id="homeBtn" class="btn-primary">
-                    <i class="fa-solid fa-home"></i> 首1页
+                    <i class="fa-solid fa-home"></i> 首页
                 </button>
                 <button id="checkCardBtn" class="btn-primary">
                     <i class="fa-solid fa-key"></i> 密钥查询
@@ -65,11 +65,19 @@
                     <h2 id="detailTitle" class="detail-title"></h2>
                     <div id="detailTag" class="detail-tag"></div>
                     <div id="detailDesc" class="detail-desc-short"></div>
-                    <div id="detailFullDesc" class="detail-desc-full"></div>
+                    
+                    <!-- 横向选项卡导航 -->
+                    <div class="detail-tabs">
+                        <button class="tab-btn active" data-tab="fullDesc">核心功能</button>
+                        <button class="tab-btn" data-tab="userAgreement">使用协议</button>
+                    </div>
+                    
+                    <!-- 重叠内容区域 -->
+                    <div class="detail-tab-content">
+                        <div id="detailFullDesc" class="tab-panel active detail-desc-full"></div>
+                        <div id="detailUserAgreement" class="tab-panel detail-user-agreement"></div>
+                    </div>
                     <div class="detail-actions">
-                        <a id="detailLink" href="#" class="btn-primary" target="_blank">
-                            <i class="fa-solid fa-download"></i> 立即下载
-                        </a>
                     </div>
                 </div>
             </div>
@@ -144,7 +152,7 @@
             <div class="footer-content">
                 <div class="footer-info">
                     <span id="beijing-time"></span>
-                    <span>© 2025 应用发布中心 - 点击卡片进入应用详情</span>
+                    <span>© 2025 应用发布中心 - 所有应用仅供展示</span>
 
                 </div>
                 <div class="footer-links">
@@ -170,8 +178,6 @@
 </body>
 
 </html>
-
-
 
 
 
