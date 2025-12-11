@@ -180,7 +180,7 @@ function handleCheckResult(result) {
     // 检查卡密是否未激活
     if (!cardData.is_active || cardData.activate_time === null || cardData.expire_time === null) {
         resultStatus.innerHTML = '<span class="status-inactive">⚠️ 未激活</span>';
-        resultRemainingDays.textContent = '7 天'; // 未激活的卡密剩余时间显示为7天
+        resultRemainingDays.textContent = `${cardData.days} 天`; // 未激活的卡密剩余时间等于总有效期
     } else {
         // 卡密已激活，计算精确的剩余时间
         const now = new Date();
