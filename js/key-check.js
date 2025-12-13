@@ -259,7 +259,7 @@ function initializePage() {
         try {
             console.log('开始查询密钥:', cardKey);
             // 使用本地API地址
-            const apiUrl = 'http://localhost:8000';
+            const apiUrl = 'https://api.ddda.cc';
             const api = new CardKeyAPI(apiUrl);
             const result = await api.checkCard(cardKey);
             console.log('查询成功，结果:', result);
