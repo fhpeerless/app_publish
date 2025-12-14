@@ -87,8 +87,8 @@ const appData = [
              
                 <li>自动添加friends.txt每一个好友</li>
                 <li>兼容friends.txt 空行隔断</li>
-                 <li>applied.txt为friends.txt中已经成功发送添加好友申请的微信号</li>
-                <li>time.txt为第一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li>       
+                 <li>自动记录添加成功或缺席的好友</li>
+                <li>自动记录添加好友频繁的时间</li>       
 
                 <p>/ windows / 网页端</p>
             <h4>更新日志</h4>
