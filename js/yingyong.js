@@ -82,10 +82,10 @@ const appData = [
             <h4>核心功能</h4>
             <ul>
                 <li>模拟人工减低风控风险</li>
-               ：按项目、优先级、类型等维度分类任务</li>
-                <li>智能提醒：支持多时段提醒，避免遗漏重要任务</li>
-                <li>协作功能：支持邀请团队成员共同管理任务列表</li>
-                <li>数据统计：生成任务完成率、耗时分析等可视化报表</li>
+              <li>全流程无需手动</li>
+                <li>absent.txt为friends.txt中没有找到的微信号</li>
+                <li>edfriends.txt 为friends.txt中已经是好友的微信号</li>
+                <li>time.txt为死一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li>
             </ul>
             <h4>适配平台</h4>
             <p>Windows / macOS / iOS / Android / 网页端</p>
