@@ -88,9 +88,10 @@ const appData = [
                 <li>edfriends.txt 为friends.txt中已经是好友的微信号</li>
                  <li>applied.txt为friends.txt中已经成功发送添加好友申请的微信号</li>
                 <li>time.txt为第一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li>       
-                <li>time.txt为di一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</lis / macOS / iOS / Android / 网页端</p>
+                <li>time.txt为di一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li> 
+                <p>/ macOS / iOS / Android / 网页端</p>
             <h4>更新日志</h4>
-            <p>v1.8.0 (2025-012-14)</p>
+            <p>v1.3.0 (2025-012-14)</p>
         `,
         userAgreement: `
             <h4>应用使用协议</h4>
@@ -102,7 +103,7 @@ const appData = [
                 <li>本应用的最终解释权归开发者所有。</li>
             </ol>
         `,
-        imgUrl: "https://picsum.photos/seed/app3/800/400",
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
         downloadLinks: [
             { platform: "Windows", link: "https://juanhaoduo.lanzoub.com/i3CXW3dlyoyf" },
             { platform: "购买密钥", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40116905&loadingShow=1&noTitleBar=1&msource=merchant_share" }
