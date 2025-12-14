@@ -104,11 +104,8 @@ const appData = [
         `,
         imgUrl: "https://picsum.photos/seed/app3/800/400",
         downloadLinks: [
-            { platform: "Windows", link: "#windows" },
-            { platform: "macOS", link: "#macos" },
-            { platform: "iOS", link: "#ios" },
-            { platform: "Android", link: "#android" },
-            { platform: "网页端", link: "#web" }
+            { platform: "Windows", link: "https://juanhaoduo.lanzoub.com/i3CXW3dlyoyf" },
+            { platform: "购买密钥", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40116905&loadingShow=1&noTitleBar=1&msource=merchant_share" }
         ]
     }
 ];
