@@ -76,7 +76,7 @@ const appData = [
     },
     {
         id: 3,
-        title: "任务清单",
+        title: "wx_auto",
         tag: "效率工具",
         shortDesc: "可视化任务管理工具，支持自定义标签、截止日期提醒。",
         fullDesc: `
