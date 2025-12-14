@@ -48,6 +48,7 @@ const appData = [
                 <li>文件小，容易存储</li>
                 <li>源码开源不存在使用问题</li>
                 <li>对电脑影响较小</li>
+                 <li>购买后自动发送源码</li>
                 <li>每个文件夹的空间大小清晰可见，</li>
                 <li>按大小清除无用垃圾，避免清里程序清理不到的自用缓存文件</li>
             </ul>
@@ -86,12 +87,10 @@ const appData = [
                 <li>absent.txt为friends.txt中没有找到的微信号</li>
                 <li>edfriends.txt 为friends.txt中已经是好友的微信号</li>
                  <li>applied.txt为friends.txt中已经成功发送添加好友申请的微信号</li>
-                <li>time.txt为死一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li>
-            </ul>
-            <h4>适配平台</h4>
-            <p>Windows / macOS / iOS / Android / 网页端</p>
+                <li>time.txt为第一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li>       
+                <li>time.txt为di一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</lis / macOS / iOS / Android / 网页端</p>
             <h4>更新日志</h4>
-            <p>v1.8.0 (2025-03-10)：新增AI任务规划，根据截止日期自动分配优先级</p>
+            <p>v1.8.0 (2025-012-14)</p>
         `,
         userAgreement: `
             <h4>应用使用协议</h4>
