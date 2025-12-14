@@ -82,9 +82,10 @@ const appData = [
             <h4>核心功能</h4>
             <ul>
                 <li>模拟人工减低风控风险</li>
-              <li>全流程无需手动</li>
+             
                 <li>absent.txt为friends.txt中没有找到的微信号</li>
                 <li>edfriends.txt 为friends.txt中已经是好友的微信号</li>
+                 <li>applied.txt为friends.txt中已经成功发送添加好友申请的微信号</li>
                 <li>time.txt为死一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li>
             </ul>
             <h4>适配平台</h4>
