@@ -82,21 +82,21 @@ const appData = [
         fullDesc: `
             <h4>核心功能</h4>
             <ul>
-                <li>模拟人工减低风控风险</li>
+                <li>模拟人工无风控风险</li>
              
-                <li>absent.txt为friends.txt中没有找到的微信号</li>
-                <li>edfriends.txt 为friends.txt中已经是好友的微信号</li>
+                <li>自动添加friends.txt每一个好友</li>
+                <li>兼容friends.txt 空行隔断</li>
                  <li>applied.txt为friends.txt中已经成功发送添加好友申请的微信号</li>
                 <li>time.txt为第一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li>       
-                <li>time.txt为di一次出现添加朋友频繁的时间，以便等待1小时手动重启程序再次添加</li> 
-                <p>/ macOS / iOS / Android / 网页端</p>
+
+                <p>/ windows / 网页端</p>
             <h4>更新日志</h4>
             <p>v1.3.0 (2025-012-14)</p>
         `,
         userAgreement: `
             <h4>应用使用协议</h4>
             <ol>
-                <li>本任务清单应用用于可视化任务管理，仅供用户个人学习和研究使用。</li>
+                <li>本程序用于个人和商业，仅供用户个人学习和研究使用。</li>
                 <li>用户在使用本应用时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
                 <li>本应用不对用户使用过程中产生的任何损失或风险承担责任。</li>
                 <li>用户购买应用后，将获得应用的使用权，但不得对应用进行破解、修改、反编译等操作。</li>
