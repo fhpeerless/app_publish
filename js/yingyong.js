@@ -3,7 +3,7 @@ const appData = [
     {
         id: 1,
         title: "谷歌多开",
-        tag: "效率工具",
+        tag: "脚本源码",
         shortDesc: "一键多开指定数量的google的浏览器。",
         fullDesc: `
             <h4>核心功能</h4>
@@ -40,7 +40,7 @@ const appData = [
     {
         id: 2,
         title: "获取目录内的空间使用情况",
-        tag: "脚本",
+        tag: "脚本源码",
         shortDesc: "根据各个文件夹所占空间大小依次排列。",
         fullDesc: `
             <h4>核心功能</h4>
@@ -78,7 +78,7 @@ const appData = [
     {
         id: 3,
         title: "wx_auto",
-        tag: "效率工具",
+        tag: "windows",
         shortDesc: "可视化任务管理工具，支持自定义标签、截止日期提醒。",
         fullDesc: `
             <h4>核心功能</h4>
@@ -113,7 +113,7 @@ const appData = [
     {
         id: 4,
         title: "跨设备交互",
-        tag: "跨设备交互",
+        tag: "windows",
         shortDesc: "移动端和pc之间的通信。",
         fullDesc: `
             <h4>核心功能</h4>
@@ -435,6 +435,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
