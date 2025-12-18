@@ -112,7 +112,7 @@ const appData = [
     },
     {
         id: 4,
-        title: "wx_auto",
+        title: "跨设备交互",
         tag: "跨设备交互",
         shortDesc: "移动端和pc之间的通信。",
         fullDesc: `
@@ -435,6 +435,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
