@@ -109,6 +109,41 @@ const appData = [
             { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/isxcn3dua7hg" },
             { platform: "购买密钥", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40116905&loadingShow=1&noTitleBar=1&msource=merchant_share" }
         ]
+    },
+    {
+        id: 4,
+        title: "wx_auto",
+        tag: "跨设备交互",
+        shortDesc: "移动端和pc之间的通信。",
+        fullDesc: `
+            <h4>核心功能</h4>
+            <ul>
+                <li>设备之间发送传文件</li>
+             
+                <li>设备之间发送消息</li>
+                <li>手机实现设置电脑定时关机，电脑立即关机</li>
+                 <li>下载文件接受文件</li>
+
+                <p>/ windows / web/ ipone</p>
+            <h4>更新日志</h4>
+            <p>v1.4.0 (2025-012-18)</p>
+        `,
+        userAgreement: `
+            <h4>应用使用协议</h4>
+            <ol>
+                <li>本程序用于个人和商业，仅供用户个人学习和研究使用。</li>
+                <li>用户在使用本应用时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
+                <li>本应用不对用户使用过程中产生的任何损失或风险承担责任，具体指的是文件的丢失。</li>
+                <li>本应用无任何毒副作用，不产生任何注册表等，删除程序本身，即可完全删除程序不留垃圾。</li>
+                <li>用户购买应用后，将获得应用的使用权，但不得对应用进行破解、修改、反编译等操作，（源码除外）。</li>
+                <li>本应用的最终解释权归开发者所有。</li>
+            </ol>
+        `,
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
+        downloadLinks: [
+            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/isxcn3dua7hg" },
+            { platform: "购买密钥", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40116905&loadingShow=1&noTitleBar=1&msource=merchant_share" }
+        ]
     }
 ];
 
@@ -400,6 +435,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
