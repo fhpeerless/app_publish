@@ -140,6 +140,7 @@ const appData = [
             </ol>
         `,
         imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
+        videoEmbed: "<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115743899256522&bvid=BV1gFqRBaE1f&cid=34831535997&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>",
         downloadLinks: [
             { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/izQIo3dz8che" },
             { platform: "购买程序", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40143016&loadingShow=1&noTitleBar=1&msource=merchant_share" },
@@ -436,6 +437,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
