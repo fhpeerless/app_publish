@@ -6,10 +6,13 @@ function initEventListeners() {
     const appListPage = document.getElementById('appListPage');
     const appDetailPage = document.getElementById('appDetailPage');
     const keyCheckPage = document.getElementById('keyCheckPage');
+    const passwordCalcPage = document.getElementById('passwordCalcPage');
     
     // 导航按钮获取
     const checkCardBtn = document.getElementById('checkCardBtn');
     const backToAppList = document.getElementById('backToAppList');
+    const passwordCalcBtn = document.getElementById('passwordCalcBtn');
+    const backFromPasswordCalc = document.getElementById('backFromPasswordCalc');
 
     // 显示指定页面，隐藏其他页面
     function showPage(page) {
@@ -17,6 +20,7 @@ function initEventListeners() {
         appListPage.classList.remove('active');
         appDetailPage.classList.remove('active');
         keyCheckPage.classList.remove('active');
+        passwordCalcPage.classList.remove('active');
         
         // 显示指定页面
         page.classList.add('active');
@@ -34,9 +38,21 @@ function initEventListeners() {
         });
     }
     
+    // 密码计算按钮点击事件
+    if (passwordCalcBtn) {
+        passwordCalcBtn.addEventListener('click', () => {
+            showPage(passwordCalcPage);
+        });
+    }
+    
     // 密钥查询页面的返回应用列表按钮
     if (backToAppList) {
         backToAppList.addEventListener('click', goBackToList);
+    }
+    
+    // 密码计算页面的返回应用列表按钮
+    if (backFromPasswordCalc) {
+        backFromPasswordCalc.addEventListener('click', goBackToList);
     }
     
     // 移除了首页按钮的事件监听器

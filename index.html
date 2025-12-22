@@ -31,6 +31,9 @@
                 <button id="checkCardBtn" class="btn-primary">
                     <i class="fa-solid fa-key"></i> 密钥查询
                 </button>
+                <button id="passwordCalcBtn" class="btn-primary">
+                    <i class="fa-solid fa-calculator"></i> 密码计算
+                </button>
                 <button id="themeToggleBtn" class="btn-primary">
                     <i class="fa-solid fa-moon"></i> 黑夜模式
                 </button>
@@ -144,6 +147,45 @@
             </div>
         </section>
 
+        <!-- 密码计算页面（初始隐藏） -->
+        <section id="passwordCalcPage" class="page">
+            <div class="check-container">
+                <div class="check-header">
+                    <h2>CPU密码计算器</h2>
+                    <p>输入CPU ID，计算对应的密码</p>
+                </div>
+                <div class="check-form">
+                    <div class="form-group">
+                        <label for="cpuIdInput">CPU ID</label>
+                        <input type="text" id="cpuIdInput" placeholder="例如：0x1234567890" required>
+                    </div>
+                    <div class="form-actions">
+                        <button id="calculateBtn" class="btn-primary">
+                            <i class="fa-solid fa-calculator"></i> 计算密码
+                        </button>
+                        <button id="backFromPasswordCalc" class="btn-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> 返回应用列表
+                        </button>
+                    </div>
+                </div>
+                <div id="loading" class="loading hidden"></div>
+                <div id="passwordResult" class="check-result hidden">
+                    <div class="result-header">
+                        <h3>计算结果</h3>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-item">
+                            <span id="passwordResultText" class="result-value"></span>
+                        </div>
+                    </div>
+                </div>
+                <div id="passwordError" class="check-error hidden">
+                    <i class="fa-solid fa-exclamation-circle"></i>
+                    <span id="passwordErrorMessage"></span>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- 页脚 -->
@@ -173,6 +215,7 @@
     <script src="./js/app.js"></script>
     <script src="./js/key-check.js"></script>
     <script src="./js/beijing-time.js"></script>
+    <script src="./js/password-calc.js"></script>
     <!-- 首页按钮事件处理 -->
 
 </body>
