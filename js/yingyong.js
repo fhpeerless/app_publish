@@ -179,7 +179,7 @@ const appData = [
         imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
               
         downloadLinks: [
-            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/iOZs13ehswqb" }
+            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/iiyu53ehv14b" }
 
         ]
     }
@@ -473,6 +473,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
