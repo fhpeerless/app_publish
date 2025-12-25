@@ -146,6 +146,42 @@ const appData = [
             { platform: "购买程序", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40143016&loadingShow=1&noTitleBar=1&msource=merchant_share" },
             { platform: "购买源码", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40139910&loadingShow=1&noTitleBar=1&msource=merchant_share" }
         ]
+    },
+    {
+        id: 5,
+        title: "biliauto",
+        tag: "windows",
+        shortDesc: "指定视频指定评论自动发送消息。",
+        fullDesc: `
+            <h4>核心功能</h4>
+            <ul>
+                <li>自动找评论</li>
+             
+                <li>自动发送消息</li>
+                <li>自动跳过已经发送过的消息</li>
+                 <li>自动检查关注</li>
+
+                <p>/ windows / web/ ipone</p>
+            <h4>更新日志</h4>
+            <p>v1.4.0 (2025-012-25)</p>
+        `,
+        userAgreement: `
+            <h4>应用使用协议</h4>
+            <ol>
+                <li>本程序用于个人和商业，等适用场景。</li>
+                <li>用户在使用本应用时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
+                <li>本应用不对用户使用过程中因丢失文件所产生的损失或风险承担责任。</li>
+                <li>本应用无任何毒副作用，不产生任何注册表等，删除程序本身，即可完全删除程序不留垃圾，本程序无用户任何隐私的获取，只包含功能实现代码。</li>
+                <li>用户购买应用后，将获得应用的使用权，但不得对应用进行破解、修改、反编译等操作，（源码除外）。</li>
+                <li>本应用的最终解释权归开发者所有。</li>
+            </ol>
+        `,
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
+              
+        downloadLinks: [
+            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/iOZs13ehswqb" }
+
+        ]
     }
 ];
 
@@ -437,6 +473,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
