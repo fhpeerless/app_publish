@@ -30,7 +30,7 @@ const appData = [
                 <li>本软件的最终解释权归开发者所有。</li>
             </ol>
         `,
-        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEBe97fe01bbaf7282c7ebffe1901a437b7?method=download&inline=true&shareKey=7a07ba40ceee734f609011099b8f72c5",
         videoEmbed: "",
         downloadLinks: [
             { platform: "源码购买", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=12328456&loadingShow=1&noTitleBar=1&msource=merchant_share" },
@@ -104,7 +104,7 @@ const appData = [
                 <li>本应用的最终解释权归开发者所有。</li>
             </ol>
         `,
-        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEBe97fe01bbaf7282c7ebffe1901a437b7?method=download&inline=true&shareKey=7a07ba40ceee734f609011099b8f72c5",
         downloadLinks: [
             { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/ioHVp3dxgavc" },
             { platform: "购买密钥", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?isMerchant=1&page=detailuniversal_detail&saleType=10&itemsId=40116905&loadingShow=1&noTitleBar=1&msource=merchant_share" }
@@ -176,7 +176,7 @@ const appData = [
                 <li>本应用的最终解释权归开发者所有。</li>
             </ol>
         `,
-        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEB79d78a617be5ec4646dc4f2b5d336d85?method=download&inline=true&shareKey=189edebbb9b455dc8a57a7c6184cf765",
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEBe97fe01bbaf7282c7ebffe1901a437b7?method=download&inline=true&shareKey=7a07ba40ceee734f609011099b8f72c5",
               
         downloadLinks: [
             { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/iiyu53ehv14b" }
@@ -473,6 +473,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
