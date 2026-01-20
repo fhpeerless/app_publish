@@ -216,7 +216,7 @@ const appData = [
         imgUrl: "http://note.youdao.com/yws/api/personal/file/WEBe97fe01bbaf7282c7ebffe1901a437b7?method=download&inline=true&shareKey=7a07ba40ceee734f609011099b8f72c5",
 
         downloadLinks: [
-            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/idtSq3gkyd3a" }
+            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/i5ULE3gldwof" }
 
         ]
     }
