@@ -183,6 +183,44 @@ const appData = [
 
         ]
     }
+    ,
+    {
+        id: 6,
+        title: "gitGitManager",
+        tag: "windows",
+        shortDesc: "指定视频指定评论自动发送消息。",
+        fullDesc: `
+            <h4>核心功能</h4>
+            <ul>
+                <li>同步分支</li>
+             
+                <li>推送提交</li>
+                <li>扫描本地git路径</li>
+                 <li>创建密钥，添加git远程仓库</li>
+                <li>相关git操作</li>
+                <p>/ windows / </p>
+            <h4>更新日志</h4>
+            <p>v1.4.0 (2025-01-15)</p>
+        `,
+        userAgreement: `
+            <h4>应用使用协议</h4>
+            <ol>
+                <li>本程序用于个人和商业，等适用场景。</li>
+                <li>用户在使用本应用时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
+                <li>本应用不对用户使用过程中因丢失文件所产生的损失或风险承担责任。</li>
+                <li>本应用无任何毒副作用，不产生任何注册表等，删除程序本身，即可完全删除程序不留垃圾，本程序无用户任何隐私的获取，只包含功能实现代码。</li>
+                <li>用户购买应用后，将获得应用的使用权，但不得对应用进行破解、修改、反编译等操作，（源码除外）。</li>
+                <li>本应用的最终解释权归开发者所有。</li>
+            </ol>
+        `,
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEBe97fe01bbaf7282c7ebffe1901a437b7?method=download&inline=true&shareKey=7a07ba40ceee734f609011099b8f72c5",
+
+        downloadLinks: [
+            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/idtSq3gkyd3a" }
+
+        ]
+    }
+
 ];
 
 // DOM元素获取
