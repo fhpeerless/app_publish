@@ -220,6 +220,44 @@ const appData = [
 
         ]
     }
+    ,
+    {
+        id: 7,
+        title: "动态壁纸",
+        tag: "windows",
+        shortDesc: "绿色便携版桌面动态壁纸程序。",
+        fullDesc: `
+            <h4>核心功能</h4>
+            <ul>
+                <li>开机自启</li>
+             
+                <li>指定单个视频文件为桌面的壁纸</li>
+                <li>循环播放指定文件夹的动态壁纸</li>
+                 <li>程序使用免费</li>
+                <li>全绿色无广告，不产生注册表缓存</li>
+                <li>配置文件创建在程序目录</li>
+                <p>/ windows / </p>
+            <h4>更新日志</h4>
+            <p>v1.4.0 (2025-01-15)</p>
+        `,
+        userAgreement: `
+            <h4>应用使用协议</h4>
+            <ol>
+                <li>本程序用于个人和商业，等适用场景。</li>
+                <li>用户在使用本应用时，应当遵守国家相关法律法规，不得用于任何非法用途。</li>
+                <li>本应用不对用户使用过程中因丢失文件所产生的损失或风险承担责任。</li>
+                <li>本应用无任何毒副作用，不产生任何注册表等，删除程序本身，即可完全删除程序不留垃圾，本程序无用户任何隐私的获取，只包含功能实现代码。</li>
+                <li>用户购买应用后，将获得应用的使用权，但不得对应用进行破解、修改、反编译等操作，（源码除外）。</li>
+                <li>本应用的最终解释权归开发者所有。</li>
+            </ol>
+        `,
+        imgUrl: "http://note.youdao.com/yws/api/personal/file/WEBe97fe01bbaf7282c7ebffe1901a437b7?method=download&inline=true&shareKey=7a07ba40ceee734f609011099b8f72c5",
+
+        downloadLinks: [
+            { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/i5ULE3gldwof" },
+            { platform: "下载应用", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?page=detailuniversal_detail&itemsId=40377388&loadingShow=1&noTitleBar=1#noReffer=true&msource=merchant_share" }
+        ]
+    }
 
 ];
 
