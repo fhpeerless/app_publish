@@ -267,6 +267,12 @@ const appDetailPage = document.getElementById('appDetailPage');
 const appGrid = document.getElementById('appGrid');
 let appCards;
 
+// 分页相关变量
+let currentPage = 1;
+const appsPerPage = 6;
+let totalPages = Math.ceil(appData.length / appsPerPage);
+let paginationContainer;
+
 // 页面切换函数
 function showDetailPage(appId) {
     // 隐藏列表页，显示详情页
@@ -472,12 +478,17 @@ function showListPage() {
 }
 
 // 动态生成应用卡片函数
-function generateAppCards() {
+function generateAppCards(page = 1) {
     // 清空现有卡片
     appGrid.innerHTML = '';
     
-    // 遍历应用数据生成卡片
-    appData.forEach(app => {
+    // 计算当前页的应用数据范围
+    const startIndex = (page - 1) * appsPerPage;
+    const endIndex = startIndex + appsPerPage;
+    const currentApps = appData.slice(startIndex, endIndex);
+    
+    // 遍历当前页的应用数据生成卡片
+    currentApps.forEach(app => {
         const card = document.createElement('div');
         card.className = 'app-card';
         card.dataset.id = app.id;
@@ -497,7 +508,8 @@ function generateAppCards() {
             `;
         } else {
             // 为图片添加错误处理
-            mediaContent = `<img src="${app.imgUrl}" alt="${app.title}" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2UyZThmMCIvPgogIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjIwMCIgcj0iNDAiIGZpbGw9IiM5M2M1ZmQiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzNDE1NSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7miJHlj4fljJfmmK/lkIPlhb/liqHmuLjlj4zkvJTkuIrlvIDlj6/mp7DmsYPlm77mmK/lkIPlhb/lpKflrp48L3RleHQ+Cjwvc3ZnPg==';">`;
+            mediaContent = `<img src="${app.imgUrl}" alt="${app.title}" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2UyZThmMCIvPgogIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjIwMCIgcj0iNDAiIGZpbGw9IiM5M2M1ZmQiLz4KICA8dGV4dCB4PSI0MDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzNDE1NSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7miJHlj4fljJfmmK/lkIPlhb/liqHmuLjlj4zkvJTkuIrlvIDlj6/mp7DmsYPlm77mmK/lkIPlhb/lpKflrp48L3RleHQ+Cjwvc3ZnPg==';">
+            `;
         }
         
         card.innerHTML = `
@@ -524,14 +536,77 @@ function generateAppCards() {
             showDetailPage(appId);
         });
     });
+    
+    // 更新分页控件
+    updatePagination();
+}
+
+// 生成并更新分页控件
+function updatePagination() {
+    // 计算总页数
+    totalPages = Math.ceil(appData.length / appsPerPage);
+    
+    // 检查是否已存在分页容器
+    if (!paginationContainer) {
+        // 创建分页容器
+        paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination';
+        appListPage.appendChild(paginationContainer);
+    }
+    
+    // 清空分页容器
+    paginationContainer.innerHTML = '';
+    
+    // 如果只有一页，不显示分页控件
+    if (totalPages <= 1) {
+        return;
+    }
+    
+    // 创建上一页按钮
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'btn-secondary';
+    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i> 上一页';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            generateAppCards(currentPage);
+        }
+    });
+    paginationContainer.appendChild(prevBtn);
+    
+    // 创建页码按钮
+    for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `btn-secondary ${i === currentPage ? 'active' : ''}`;
+        pageBtn.textContent = i;
+        pageBtn.addEventListener('click', () => {
+            currentPage = i;
+            generateAppCards(currentPage);
+        });
+        paginationContainer.appendChild(pageBtn);
+    }
+    
+    // 创建下一页按钮
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn-secondary';
+    nextBtn.innerHTML = '下一页 <i class="fa-solid fa-chevron-right"></i>';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            generateAppCards(currentPage);
+        }
+    });
+    paginationContainer.appendChild(nextBtn);
 }
 
 // 绑定事件
 
 // 初始化函数
 function initYingyong() {
-    // 生成应用卡片
-    generateAppCards();
+    // 生成应用卡片，默认显示第一页
+    generateAppCards(1);
 }
 
 // 页面加载完成后自动初始化

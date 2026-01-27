@@ -1028,3 +1028,66 @@ body {
 .dark-theme .footer-links a:hover {
      color: var(--primary-color);
  }
+
+/* 分页控件样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.pagination button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.pagination button.active {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.pagination button.active:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+/* 暗色主题下的分页控件样式 */
+.dark-theme .pagination button {
+    background: linear-gradient(135deg, #8B0000, #A52A2A);
+    color: white;
+}
+
+.dark-theme .pagination button:hover {
+    background: linear-gradient(135deg, #A52A2A, #B22222);
+}
+
+.dark-theme .pagination button.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .pagination {
+        gap: 4px;
+    }
+    
+    .pagination button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
