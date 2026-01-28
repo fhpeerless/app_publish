@@ -255,6 +255,7 @@ const appData = [
 
         downloadLinks: [
             { platform: "下载应用", link: "https://juanhaoduo.lanzoub.com/ilrCx3h6jwqj" },
+            { platform: "下载动态壁纸视频", link: "https://www.alipan.com/s/iuEabBm65gT" },
             { platform: "购买源码2.9", link: "https://mall.bilibili.com/neul-next/detailuniversal/detail.html?page=detailuniversal_detail&itemsId=40377388&loadingShow=1&noTitleBar=1#noReffer=true&msource=merchant_share" }
         ]
     }
@@ -624,6 +625,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initYingyong
     };
 }
+
 
 
 
